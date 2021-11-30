@@ -11,7 +11,7 @@
 .mtj.tmp/
 
 .vscode/
-.bin/
+bin/
 # Package Files #
 *.jar
 *.war
