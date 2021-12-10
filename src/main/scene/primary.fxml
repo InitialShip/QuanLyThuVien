@@ -5,14 +5,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="262.0" prefWidth="377.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.PrimaryController">
    <children>
-      <Button alignment="CENTER" layoutX="138.0" layoutY="119.0" mnemonicParsing="false" onAction="#sayHello" text="Say Hello World" />
+      <Button alignment="CENTER" layoutX="246.0" layoutY="119.0" mnemonicParsing="false" onAction="#sayHello" text="Say Book Detail" />
       <Label layoutX="71.0" layoutY="41.0" text="JavaFX Project Template">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
+      <Button layoutX="60.0" layoutY="119.0" mnemonicParsing="false" onAction="#doBrowse" text="Browse" />
+      <Button layoutX="155.0" layoutY="178.0" mnemonicParsing="false" onAction="#doUpload" text="Upload" />
    </children>
 </AnchorPane>
