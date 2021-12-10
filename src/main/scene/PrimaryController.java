@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import main.entity.Book;
 import main.mySqlConnector.Connector;
 import main.service.BookService;
@@ -30,6 +31,8 @@ public class PrimaryController {
     }
 
     private String s;
+    @FXML private ImageView imageView;
+
     @FXML
     private void doBrowse(){
         JFileChooser fileChooser = new JFileChooser();
@@ -40,6 +43,7 @@ public class PrimaryController {
          if(result == JFileChooser.APPROVE_OPTION){
             File selectedFile = fileChooser.getSelectedFile();
             String path = selectedFile.getAbsolutePath();
+            imageView.setImage(new Image(path));
             s = path;
             System.out.println("got file");
              }
@@ -63,4 +67,6 @@ public class PrimaryController {
         System.out.println("no error");
         Connector.close();
     }
+    
+    
 }
