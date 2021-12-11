@@ -67,6 +67,12 @@ public class PrimaryController {
         System.out.println("no error");
         Connector.close();
     }
-    
+    // public ImageIcon ResizeImage(String imgPath){
+    //     ImageIcon MyImage = new ImageIcon(imgPath);
+    //     Image img = MyImage.getImage();
+    //     Image newImage = img.getScaledInstance(label.getWidth(), label.getHeight(),Image.SCALE_SMOOTH);
+    //     ImageIcon image = new ImageIcon(newImage);
+    //     return image;
+    // }
     
 }
