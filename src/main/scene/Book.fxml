@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#something" prefHeight="185.0" prefWidth="503.0" style="-fx-border-width: 0px 0px 4px 0px; -fx-border-color: red;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.BookController">
+   <children>
+      <ImageView fitHeight="155.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../../Pictures/Slide%20Shows/DacNhanTam.png" />
+         </image>
+      </ImageView>
+      <VBox prefHeight="185.0" prefWidth="371.0">
+         <children>
+            <Label prefHeight="114.0" prefWidth="288.0" text="Dac Nhan Tam">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label prefHeight="60.0" prefWidth="371.0" text="Dale Carnegie" />
+         </children>
+      </VBox>
+   </children>
+</HBox>

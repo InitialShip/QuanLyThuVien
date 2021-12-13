@@ -1,0 +1,30 @@
+.user-input{
+    -fx-background-color : transparent;
+    -fx-border-width : 0px 0px 2px 0px;
+    -fx-border-color :  #778ca3;
+}
+.user-input:hover {
+    -fx-prompt-text-fill : #4b6584;
+    -fx-border-color : #4b6584;
+}
+.user-input:focused {
+    -fx-border-color : #26de81;
+}
+.user-input.error {
+    -fx-border-width : 1px 1px 2px 1px;
+    -fx-border-color : #ff0000;
+}
+/*Login button style */
+.loginButton {
+    -fx-background-color : #26de81;
+    /*-fx-effect: dropshadow( two-pass-box , #04657B , 1, 10 , 3 , 3); */
+    -fx-cursor : hand;
+}
+.loginButton:hover {
+    -fx-background-color : #2bcbba;
+    -fx-text-fill : #ffffff;
+}
+.loginButton:pressed {
+    -fx-background-color : #a5b1c2;
+
+}
