@@ -17,7 +17,13 @@ public class BookService {
         Statement statement = Connector.getCnt().createStatement();
         ResultSet rs = statement.executeQuery("SELECT id,name, authors, description, year, publisher FROM book_detail");
         while (rs.next()) {
-            Book b = new Book(rs.getString("id"), rs.getString("name"), rs.getString("authors"), rs.getString("description"), rs.getInt("year"), rs.getString("publisher"));
+            Book b = new Book(
+                rs.getString("id"), 
+                rs.getString("name"), 
+                rs.getString("authors"), 
+                rs.getString("description"), 
+                rs.getInt("year"), 
+                rs.getString("publisher"));
             books.add(b);
         }
         Connector.close();

@@ -23,12 +23,7 @@ public class Connector {
         return Connector.cnt;
     }
     public static void open() throws SQLException{
-        try{
-            Connector.cnt = DriverManager.getConnection(URL, USER, PASSWORD);
-        }catch (Exception e){
-            e.printStackTrace();
-            //System.exit(0);
-        }
+        Connector.cnt = DriverManager.getConnection(URL, USER, PASSWORD);
     }
     public static void close() throws SQLException{
         Connector.cnt.close();

@@ -3,9 +3,12 @@ package main.scene;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +18,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import main.entity.Book;
 import main.mySqlConnector.Connector;
 import main.service.BookService;
@@ -51,7 +56,21 @@ public class PrimaryController {
             System.out.println("No Data");
         }
     }
+    @FXML
+    private void browse(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        ExtensionFilter filter = new ExtensionFilter("IMAGE", "*jpg","*png");
+        fileChooser.getExtensionFilters().addAll(filter);
 
+        File file = fileChooser.showOpenDialog(null);
+        if( file != null){
+            String path = file.getAbsolutePath();
+            imageView.setImage(new Image(path));
+            s = path;
+        }
+
+    }
     @FXML 
     private void doUpload() throws SQLException, FileNotFoundException{
         Connector.open();
@@ -74,5 +93,22 @@ public class PrimaryController {
     //     ImageIcon image = new ImageIcon(newImage);
     //     return image;
     // }
-    
+    @FXML private ImageView imageView2;
+    @FXML 
+    private void getImage() throws SQLException, IOException{
+        Connector.open();
+
+        Statement statement = Connector.getCnt().createStatement();
+        ResultSet rs = statement.executeQuery("SELECT * FROM test_table WHERE id = 4");
+        //byte[] image = null;
+        InputStream in = null;
+        while(rs.next()){
+            in = rs.getBinaryStream("image");
+        }
+        System.out.println(in);
+        Image image = new Image(in);
+        if (in != null)
+            imageView2.setImage(image);
+        Connector.close();
+    }
 }
