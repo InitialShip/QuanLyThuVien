@@ -1,15 +1,15 @@
 package main.scene;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import main.mySqlConnector.Connector;
 import main.utility.Utils;
 
@@ -58,7 +59,7 @@ public class LoginController implements Initializable{
         userPassInput = txt_Password.getText();
         
         //Validating before database
-        if(!isValid(userIdInput, idRegex)){
+        if(!Utils.isUserIdValid(userIdInput)){
             //txt_UserId.getStyleClass().add("error");
             userIdError.setText("Please Check the spelling and try again.");
             txt_UserId.requestFocus();
@@ -66,7 +67,7 @@ public class LoginController implements Initializable{
             rolesBox.setDisable(false);
             return;
         }
-        if(!isValid(userPassInput, passRegex)){
+        if(!Utils.isUserPasswordValid(userPassInput)){
             passwordError.setText("That was the wrong password. Please try again.");
             txt_Password.setText("");
             txt_Password.requestFocus();
@@ -89,6 +90,7 @@ public class LoginController implements Initializable{
             else{
                 //should be only one row
                 while (rs.next()) {
+                    //#UNIT TEST 
                     String retrievedPass = rs.getString("user_password");
                     
                     if (retrievedPass.equals(Utils.getEncryted(userIdInput+userPassInput))){
@@ -102,7 +104,7 @@ public class LoginController implements Initializable{
                 }
             }
         }catch(SQLException sx){
-            //use label
+            Utils.getAlertBox("Cannot connect to database!", AlertType.ERROR);
         } 
         catch (Exception e) {
             e.printStackTrace();
@@ -113,17 +115,9 @@ public class LoginController implements Initializable{
             rolesBox.setDisable(false);
         }
     }
-    // #UNIT TEST 
-    // must contain only numbers and characters, no spaces, 8-20 characters
-    private String idRegex = ("^(?=[A-Za-z0-9])(?=\\S+$).{8,20}$");
-    // must contain numbers, uppercases, lowercase, no spaces, 8-20 characters
-    private String passRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$";
-
-    private boolean isValid(String input, String regex){
-        Pattern pattern = Pattern.compile(regex);
-        if (input == null)
-            return false;
-        Matcher matcher = pattern.matcher(input);
-        return matcher.matches();
+    
+    @FXML 
+    private void toRegisterForm(ActionEvent event) throws IOException{
+        Utils.switchScene(event, "scene/Register");
     }
 }
