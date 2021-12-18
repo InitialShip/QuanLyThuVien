@@ -55,7 +55,7 @@
                   <Font size="16.0" />
                </font>
             </PasswordField>
-            <Button fx:id="loginButton" layoutX="12.0" layoutY="282.0" mnemonicParsing="false" onMouseClicked="#loginSubmit" prefHeight="37.0" prefWidth="83.0" styleClass="loginButton" text="Log In">
+            <Button fx:id="loginButton" layoutX="12.0" layoutY="282.0" mnemonicParsing="false" onAction="#loginSubmit" prefHeight="37.0" prefWidth="83.0" styleClass="loginButton" text="Log In">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -78,7 +78,7 @@
             <Label fx:id="userIdError" layoutX="14.0" layoutY="184.0" style="-fx-text-fill: #ff0000;" text="Error message!" />
             <Label fx:id="passwordError" layoutX="14.0" layoutY="250.0" style="-fx-text-fill: #ff0000;" text="Error message!" />
             <Label layoutX="14.0" layoutY="338.0" text="Don't have an account?" />
-            <Button layoutX="148.0" layoutY="334.0" mnemonicParsing="false" onAction="#toRegisterForm" style="-fx-background-color: transparent;" text="Register" textFill="BLUE" underline="true" />
+            <Button layoutX="148.0" layoutY="334.0" mnemonicParsing="false" onAction="#toRegisterForm" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Register" textFill="BLUE" underline="true" />
          </children>
       </AnchorPane>
    </children>

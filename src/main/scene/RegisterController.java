@@ -3,6 +3,7 @@ package main.scene;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import main.mySqlConnector.Connector;
 import main.utility.Utils;
 
@@ -58,12 +60,12 @@ public class RegisterController implements Initializable{
             return;
         }
         if(!Utils.isUserPasswordValid(userPassInput)){
-            passwordError.setText("That was the wrong password. Please try again.");
+            passwordError.setText("Contain atleast one Uppercase, Lowercase, Number\nAleast 8 characters, At most 20.");
             txt_Password.requestFocus();
             registerButton.setDisable(false);
             return;
         }
-        if(userPassInput != userConfirmInput){
+        if(!userPassInput.equals(userConfirmInput)){
             confirmPassError.setText("Password does not match.");
             txt_Password.requestFocus();
             registerButton.setDisable(false);
@@ -74,16 +76,40 @@ public class RegisterController implements Initializable{
         try {
             Connector.open();
             Connector.getCnt().setAutoCommit(false);
-
-            PreparedStatement statement = Connector.getCnt().prepareStatement("INSERT INTO test_account VALUES(?,?)");
+            PreparedStatement statement;
+            ResultSet rs;
+            // check if id is from school
+            statement = Connector.getCnt().prepareStatement("SELECT * FROM school_data WHERE id = ?");
+            statement.setString(1, userIdInput);
+            rs = statement.executeQuery();
+            if(!rs.isBeforeFirst()){
+                userIdError.setText("ID does not exist. Please try again.");
+                userIdError.requestFocus();
+                registerButton.setDisable(false);
+                return;
+            } 
+            
+            // check if already have an account
+            statement = Connector.getCnt().prepareStatement("SELECT * FROM user_account WHERE user_id = ?");
+            statement.setString(1, userIdInput);
+            rs = statement.executeQuery();
+            if(rs.isBeforeFirst()){
+                userIdError.setText("You are already have an account.");
+                userIdError.requestFocus();
+                registerButton.setDisable(false);
+                return;
+            } 
+            
+            //insert 
+            statement = Connector.getCnt().prepareStatement("INSERT INTO user_account VALUES(?,?)");
             statement.setString(1, userIdInput);
             statement.setString(2, Utils.getEncryted(userIdInput+userPassInput));
 
             statement.executeUpdate(); // check returned values
-
             Connector.getCnt().commit();
+            Utils.getAlertBox("Successful!", AlertType.INFORMATION).show();;
         }catch (Exception e) {
-            //TODO: handle exception
+            System.out.println(e.getMessage());
         }
         finally{
             Connector.close();

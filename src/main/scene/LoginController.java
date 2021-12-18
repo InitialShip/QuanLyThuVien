@@ -48,7 +48,7 @@ public class LoginController implements Initializable{
     }
     
     @FXML
-    private void loginSubmit() throws SQLException{
+    private void loginSubmit(ActionEvent event) throws SQLException{
         //set states
         loginButton.setDisable(true);
         rolesBox.setDisable(true);
@@ -76,44 +76,52 @@ public class LoginController implements Initializable{
             return;
         }
         //Validating with database
-        try {
-            Connector.open();
-
-            PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT user_password FROM test_account WHERE user_id = ?");
-            statement.setString(1, userIdInput);
-            ResultSet rs = statement.executeQuery();
-
-            if(!rs.isBeforeFirst()){
-                userIdError.setText("User does not exist. Please try again.");
-                userIdError.requestFocus();
-            } 
-            else{
-                //should be only one row
-                while (rs.next()) {
-                    //#UNIT TEST 
-                    String retrievedPass = rs.getString("user_password");
-                    
-                    if (retrievedPass.equals(Utils.getEncryted(userIdInput+userPassInput))){
-                        //DO NOTHING FOR NOW
-                        System.out.println("You're in!");
+        if (rolesBox.getValue() == "User"){
+            try {
+                Connector.open();
+    
+                PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT user_password FROM user_account WHERE user_id = ?");
+                statement.setString(1, userIdInput);
+                ResultSet rs = statement.executeQuery();
+    
+                if(!rs.isBeforeFirst()){
+                    userIdError.setText("User does not exist. Please try again.");
+                    userIdError.requestFocus();
+                } 
+                else{
+                    //should be only one row
+                    while (rs.next()) {
+                        //#UNIT TEST 
+                        String retrievedPass = rs.getString("user_password");
+                        
+                        if (retrievedPass.equals(Utils.getEncryted(userIdInput+userPassInput))){
+                            
+                            //System.out.println("You're in!");
+                            Utils.switchScene(event, "scene/LibraryUser");
+                        }
+                        else {
+                            passwordError.setText("That was the wrong password. Please try again.");
+                            txt_Password.requestFocus();
+                        }          
                     }
-                    else {
-                        passwordError.setText("That was the wrong password. Please try again.");
-                        txt_Password.requestFocus();
-                    }          
                 }
+            }catch(SQLException sx){
+                Utils.getAlertBox("Cannot connect to database!", AlertType.ERROR);
+            } 
+            catch (Exception e) {
+                e.printStackTrace();
             }
-        }catch(SQLException sx){
-            Utils.getAlertBox("Cannot connect to database!", AlertType.ERROR);
-        } 
-        catch (Exception e) {
-            e.printStackTrace();
+            finally{
+                Connector.close();
+                loginButton.setDisable(false);
+                rolesBox.setDisable(false);
+            }
         }
-        finally{
-            Connector.close();
-            loginButton.setDisable(false);
-            rolesBox.setDisable(false);
+        else
+        {
+            // Librarian
         }
+        
     }
     
     @FXML 
