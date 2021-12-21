@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1100.0" stylesheets="@UserInterfaceStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.user.UserInterfaceController">
+   <children>
+      <VBox prefHeight="650.0" prefWidth="1100.0">
+         <children>
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="1100.0" style="-fx-background-color: #26de81;" />
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1100.0">
+               <children>
+                  <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="150.0" spacing="5.0" style="-fx-background-color: #a5b1c2;">
+                     <children>
+                        <Pane fx:id="bookView" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#dosomething" prefHeight="70.0" prefWidth="140.0" styleClass="verticalTab">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <children>
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="63.0" layoutY="5.0" prefHeight="61.0" prefWidth="74.0" text="BOOK&#10;VIEW" textAlignment="RIGHT" textOverrun="CLIP">
+                                 <font>
+                                    <Font name="Arial" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children></Pane>
+                        <Pane fx:id="idCard" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#dosomething2" prefHeight="70.0" prefWidth="140.0" styleClass="verticalTab">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <children>
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="25.0" layoutY="5.0" prefHeight="61.0" prefWidth="112.0" text="ID CARD" textAlignment="RIGHT" textOverrun="CLIP" wrapText="true">
+                                 <font>
+                                    <Font name="Arial" size="24.0" />
+                                 </font>
+                              </Label>
+                           </children></Pane>
+                        <Pane maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="140.0" styleClass="verticalTab" />
+                        <Pane maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="140.0" styleClass="verticalTab" />
+                     </children>
+                     <padding>
+                        <Insets left="5.0" right="2.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="950.0" />
+               </children>
+            </HBox>
+         </children></VBox>
+   </children>
+</AnchorPane>

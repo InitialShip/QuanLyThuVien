@@ -1,0 +1,23 @@
+.tab {
+    -fx-pref-width : 100;
+    -fx-pref-height : 35;
+    -fx-font-size : 16;
+    -fx-background-color : #95afc0;
+    -fx-padding: 4 10 4 4 ;
+}
+.tab:selected 
+{
+-fx-background-color:    #f9ca24;
+/*-fx-background-insets: 0, 1 1 0 1;
+-fx-background-radius: 5 5 0 0, 4 4 0 0;*/
+}
+.tab-pane{
+    -fx-padding: 0 -1 -1 -1;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+.viewport {
+    -fx-background-color: transparent;
+}

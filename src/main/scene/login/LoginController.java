@@ -1,4 +1,4 @@
-package main.scene;
+package main.scene.login;
 
 import java.io.IOException;
 import java.net.URL;
@@ -19,6 +19,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import main.mySqlConnector.Connector;
+import main.utility.MyScene;
 import main.utility.Utils;
 
 public class LoginController implements Initializable{
@@ -97,7 +98,7 @@ public class LoginController implements Initializable{
                         if (retrievedPass.equals(Utils.getEncryted(userIdInput+userPassInput))){
                             
                             //System.out.println("You're in!");
-                            Utils.switchScene(event, "scene/LibraryUser");
+                            MyScene.switchScene(event, "scene/primary");
                         }
                         else {
                             passwordError.setText("That was the wrong password. Please try again.");
@@ -126,6 +127,6 @@ public class LoginController implements Initializable{
     
     @FXML 
     private void toRegisterForm(ActionEvent event) throws IOException{
-        Utils.switchScene(event, "scene/Register");
+        MyScene.switchScene(event, "scene/login/Register");
     }
 }

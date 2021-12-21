@@ -1,6 +1,5 @@
 package main.utility;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -8,13 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.stage.Stage;
-import main.App;
 
 public class Utils {
     //#UNIT TEST
@@ -58,17 +51,6 @@ public class Utils {
         } 
   
         return hexString.toString(); 
-    }
-
-    /*
-    * Switch to new scene relative to App class
-    */
-    public static void switchScene(ActionEvent event, String fxml) throws IOException{
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml+".fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
     }
 
     /*

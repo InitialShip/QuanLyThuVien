@@ -1,4 +1,4 @@
-package main.scene;
+package main.scene.login;
 
 import java.io.IOException;
 import java.net.URL;
@@ -16,6 +16,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import main.mySqlConnector.Connector;
+import main.utility.MyScene;
 import main.utility.Utils;
 
 public class RegisterController implements Initializable{
@@ -52,7 +53,7 @@ public class RegisterController implements Initializable{
         userIdInput = txt_UserId.getText();
         userPassInput = txt_Password.getText();
         userConfirmInput = txt_ConfirmPassword.getText();
-
+        //client check
         if(!Utils.isUserIdValid(userIdInput)){
             userIdError.setText("Please Check the spelling and try again.");
             txt_UserId.requestFocus();
@@ -71,8 +72,7 @@ public class RegisterController implements Initializable{
             registerButton.setDisable(false);
             return;
         }
-        //check if a user already have an account
-        //insert into database
+        //database check
         try {
             Connector.open();
             Connector.getCnt().setAutoCommit(false);
@@ -118,6 +118,6 @@ public class RegisterController implements Initializable{
     }
     @FXML 
     private void toLoginForm(ActionEvent event) throws IOException{
-        Utils.switchScene(event, "scene/Login");
+        MyScene.switchScene(event, "scene/login/Login");
     }
 }
