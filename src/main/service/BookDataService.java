@@ -3,8 +3,6 @@ package main.service;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import main.data.BookData;
 import main.entity.Book;

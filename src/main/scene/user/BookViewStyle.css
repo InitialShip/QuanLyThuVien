@@ -5,11 +5,14 @@
     -fx-background-color : #95afc0;
     -fx-padding: 4 10 4 4 ;
 }
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+}
 .tab:selected 
 {
 -fx-background-color:    #f9ca24;
-/*-fx-background-insets: 0, 1 1 0 1;
--fx-background-radius: 5 5 0 0, 4 4 0 0;*/
+-fx-background-insets: 0, 1 1 0 1;
+-fx-background-radius: 5 5 0 0, 4 4 0 0;
 }
 .tab-pane{
     -fx-padding: 0 -1 -1 -1;

@@ -2,7 +2,7 @@ package main.entity;
 
 public class Book {
     private String id;
-    private String name;
+    private String title;
     private String authors;
     private String description;
     private int year;
@@ -10,9 +10,9 @@ public class Book {
     //constructor
     public Book() {
     }
-    public Book(String id, String name, String authors, String description, int year, String publisher) {
+    public Book(String id, String title, String authors, String description, int year, String publisher) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.authors = authors;
         this.description = description;
         this.year = year;
@@ -25,19 +25,23 @@ public class Book {
     public void setId(String id) {
         this.id = id;
     }
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
     public String getAuthors() {
+        if (this.authors == null)
+            return "";
         return authors;
     }
     public void setAuthors(String authors) {
         this.authors = authors;
     }
     public String getDescription() {
+        if(this.description == null)
+            return "";
         return description;
     }
     public void setDescription(String description) {
@@ -50,6 +54,8 @@ public class Book {
         this.year = year;
     }
     public String getPublisher() {
+        if(this.publisher == null)
+            return "";
         return publisher;
     }
     public void setPublisher(String publisher) {
@@ -60,7 +66,7 @@ public class Book {
     @Override
     public String toString() {
         String result; 
-        result = String.format("%s \n%s \n%s \n%s \n%d \n%s \n\n", this.id, this.name, this.authors, this.description, this.year, this.publisher);
+        result = String.format("%s \n%s \n%s \n%s \n%d \n%s \n\n", this.id, this.title, this.authors, this.description, this.year, this.publisher);
         return result;
     }
 }

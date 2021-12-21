@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -13,32 +15,49 @@
    <children>
       <VBox prefHeight="650.0" prefWidth="1100.0">
          <children>
-            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="1100.0" style="-fx-background-color: #26de81;" />
-            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1100.0">
+            <Pane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="1100.0" style="-fx-background-color: #4b6584;">
                <children>
-                  <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="150.0" spacing="5.0" style="-fx-background-color: #a5b1c2;">
+                  <Label layoutX="150.0" layoutY="5.0" prefHeight="40.0" prefWidth="236.0" style="-fx-border-color: #ffffff; -fx-border-width: 0 0 0 2;" text="   Library Assistant" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Bold" size="24.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0">
+               <children>
+                  <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="150.0" spacing="5.0" style="-fx-background-color: #a5b1c2;">
                      <children>
-                        <Pane fx:id="bookView" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#dosomething" prefHeight="70.0" prefWidth="140.0" styleClass="verticalTab">
+                        <Pane fx:id="bookView" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#toBookView" prefHeight="70.0" prefWidth="140.0" styleClass="verticalTab">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <children>
-                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="63.0" layoutY="5.0" prefHeight="61.0" prefWidth="74.0" text="BOOK&#10;VIEW" textAlignment="RIGHT" textOverrun="CLIP">
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="25.0" layoutY="5.0" prefHeight="61.0" prefWidth="112.0" text="BOOK&#10;VIEW" textAlignment="RIGHT" textOverrun="CLIP">
                                  <font>
                                     <Font name="Arial" size="24.0" />
                                  </font>
                               </Label>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resource/loupe.png" />
+                                 </image>
+                              </ImageView>
                            </children></Pane>
-                        <Pane fx:id="idCard" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#dosomething2" prefHeight="70.0" prefWidth="140.0" styleClass="verticalTab">
+                        <Pane fx:id="idCard" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMousePressed="#toIdCard" prefHeight="70.0" prefWidth="140.0" styleClass="verticalTab">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                            <children>
-                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="25.0" layoutY="5.0" prefHeight="61.0" prefWidth="112.0" text="ID CARD" textAlignment="RIGHT" textOverrun="CLIP" wrapText="true">
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="25.0" layoutY="5.0" prefHeight="61.0" prefWidth="112.0" text="ID&#10;CARD" textAlignment="RIGHT" textOverrun="CLIP" wrapText="true">
                                  <font>
                                     <Font name="Arial" size="24.0" />
                                  </font>
                               </Label>
+                              <ImageView fitHeight="64.0" fitWidth="64.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../resource/id-card.png" />
+                                 </image>
+                              </ImageView>
                            </children></Pane>
                         <Pane maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="140.0" styleClass="verticalTab" />
                         <Pane maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="140.0" styleClass="verticalTab" />
@@ -47,7 +66,7 @@
                         <Insets left="5.0" right="2.0" top="10.0" />
                      </padding>
                   </VBox>
-                  <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="950.0" />
+                  <AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="950.0" />
                </children>
             </HBox>
          </children></VBox>

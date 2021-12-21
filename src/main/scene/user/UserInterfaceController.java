@@ -18,21 +18,21 @@ public class UserInterfaceController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            dosomething();
+            toBookView();
         } catch (IOException e) {
             e.printStackTrace();
         }
         
     }
     @FXML 
-    private void dosomething() throws IOException{
+    private void toBookView() throws IOException{
         setUnselected();
         bookView.getStyleClass().add("selected");
         pane.getChildren().clear();
         pane.getChildren().add(MyScene.loadFXML("scene/user/BookView"));
     }
     @FXML
-    public void dosomething2() throws IOException{
+    public void toIdCard() throws IOException{
         setUnselected();
         idCard.getStyleClass().add("selected");
         pane.getChildren().clear();

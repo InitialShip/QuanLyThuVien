@@ -16,7 +16,10 @@ public class BookData {
     }
     public static BookData getInstance() throws SQLException{
         if (instance == null)
+        {
             instance = new BookData();
+            instance.loadData();
+        }
         return instance;
     }
     //getter
@@ -32,8 +35,8 @@ public class BookData {
     }
     public void sort(){
         books.sort((b1,b2) -> {
-            String title1 = b1.getName();
-            String title2 = b2.getName();
+            String title1 = b1.getTitle();
+            String title2 = b2.getTitle();
             return title1.compareTo(title2);
         });
     }
