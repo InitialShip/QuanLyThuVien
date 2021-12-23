@@ -33,7 +33,7 @@
                   <Label fx:id="authors" text="Authors" wrapText="true" />
                </children>
             </VBox>
-            <VBox fx:id="interactVBox" prefHeight="100.0" prefWidth="67.0" style="-fx-background-color: green;" />
+            <VBox fx:id="interactVBox" prefHeight="100.0" prefWidth="67.0" style="-fx-background-color: #26de81;" />
          </children>
       </HBox>
    </children>

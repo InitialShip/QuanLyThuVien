@@ -9,12 +9,12 @@ import main.entity.Book;
 import main.mySqlConnector.Connector;
 
 public class BookDataService {
-    public static void getBooks() throws SQLException{
-        BookData bookData = BookData.getInstance();
+    public static void getData() throws SQLException{
+        BookData.getInstance();
 
         Connector.open();
         Statement statement = Connector.getCnt().createStatement();
-        ResultSet rs = statement.executeQuery("SELECT id,name, authors, description, year, publisher FROM book_detail");
+        ResultSet rs = statement.executeQuery("SELECT * FROM book_detail");
         while (rs.next()) {
             Book book = new Book(
                 rs.getString("id"), 
@@ -22,8 +22,9 @@ public class BookDataService {
                 rs.getString("authors"), 
                 rs.getString("description"), 
                 rs.getInt("year"), 
-                rs.getString("publisher"));
-                bookData.addBook(book);
+                rs.getString("publisher"),
+                rs.getInt("category_id"));
+                BookData.addBook(book);
         }
         Connector.close();
     }

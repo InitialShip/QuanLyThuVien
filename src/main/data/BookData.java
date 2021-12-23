@@ -11,14 +11,12 @@ public class BookData {
     private static List<Book> books = null;
 
     private static BookData instance = null;
-    private BookData() throws SQLException{
+    private BookData(){
         books = new ArrayList<>();
     }
     public static BookData getInstance() throws SQLException{
-        if (instance == null)
-        {
+        if (instance == null){
             instance = new BookData();
-            instance.loadData();
         }
         return instance;
     }
@@ -27,11 +25,11 @@ public class BookData {
         return books;
     }
     //methods
-    public void addBook(Book book){
+    public static void addBook(Book book){
         books.add(book);
     }
-    public void loadData() throws SQLException{
-        BookDataService.getBooks();
+    public static void loadData() throws SQLException{
+        BookDataService.getData();
     }
     public void sort(){
         books.sort((b1,b2) -> {

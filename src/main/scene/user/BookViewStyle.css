@@ -14,9 +14,6 @@
 -fx-background-insets: 0, 1 1 0 1;
 -fx-background-radius: 5 5 0 0, 4 4 0 0;
 }
-.tab-pane{
-    -fx-padding: 0 -1 -1 -1;
-}
 
 .scroll-pane {
     -fx-background-color: transparent;

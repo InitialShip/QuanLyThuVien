@@ -3,6 +3,7 @@ package main.scene.user;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import main.data.CategoryData;
 import main.entity.Book;
 
 public class BookReviewController {
@@ -27,7 +28,7 @@ public class BookReviewController {
         title.setText(book.getTitle());
         authors.setText("Author: " + book.getAuthors());
         description.setText("Description: "+book.getDescription());
-        category.setText("Category: ");
+        category.setText("Category: " + CategoryData.getCategory(book.getCategoryId()));
         publisher.setText("Publisher: " + book.getPublisher());
         year.setText("Year: " + book.getYear());
         dateAdded.setText("Date Added: ");

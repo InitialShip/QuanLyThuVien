@@ -10,17 +10,16 @@ public class AppUser {
     private Date dateOfBirth;
     private String occupation;
 
-    private static AppUser user_instance = null;
-    private AppUser(){
-        //Do nothing for now
+    public AppUser(){
     }
-    public static AppUser getInstance()
-    {
-        if (user_instance == null)
-            user_instance = new AppUser();
-        return user_instance;
+    public AppUser(String id, String firstName, String lastName, String sex, Date dateOfBirth, String occupation) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.sex = sex;
+        this.dateOfBirth = dateOfBirth;
+        this.occupation = occupation;
     }
-
     // getter setter
     public String getId() {
         return id;

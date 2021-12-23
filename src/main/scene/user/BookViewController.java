@@ -5,14 +5,18 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import main.data.BookData;
+import main.data.CategoryData;
 import main.entity.Book;
+import main.entity.Category;
 import main.utility.MyListener;
 import main.utility.MyScene;
 
@@ -20,6 +24,8 @@ public class BookViewController implements Initializable{
     @FXML private VBox layout;
     @FXML private AnchorPane review;
     @FXML private Tab tabRequest;
+    @FXML private ComboBox<String> searchComboBox;
+    @FXML private ComboBox<Category> filterComboBox;
 
 
     private BookData bookData;
@@ -34,6 +40,12 @@ public class BookViewController implements Initializable{
                 loadReview(book);
             }
         };
+        searchComboBox.setItems(FXCollections.observableArrayList("Title", "Authors","Year"));
+        searchComboBox.getSelectionModel().selectFirst();
+        //re check this thing add show all
+        filterComboBox.setItems(FXCollections.observableList(CategoryData.getCategories()));
+        filterComboBox.getSelectionModel().selectFirst();
+
         try {
             bookData = BookData.getInstance();
             bookData.sort();

@@ -7,16 +7,31 @@ public class Book {
     private String description;
     private int year;
     private String publisher;
+    private int categoryId;
+    private String place;
     //constructor
     public Book() {
     }
-    public Book(String id, String title, String authors, String description, int year, String publisher) {
+    public String getPlace() {
+        return place;
+    }
+    public void setPlace(String place) {
+        this.place = place;
+    }
+    public int getCategoryId() {
+        return categoryId;
+    }
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+    public Book(String id, String title, String authors, String description, int year, String publisher, int categoryId) {
         this.id = id;
         this.title = title;
         this.authors = authors;
         this.description = description;
         this.year = year;
         this.publisher = publisher;
+        this.categoryId = categoryId;
     }
     //getter & setter
     public String getId() {
