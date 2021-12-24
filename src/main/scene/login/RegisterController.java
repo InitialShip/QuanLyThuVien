@@ -54,13 +54,13 @@ public class RegisterController implements Initializable{
         userPassInput = txt_Password.getText();
         userConfirmInput = txt_ConfirmPassword.getText();
         //client check
-        if(!Utils.isUserIdValid(userIdInput)){
+        if(!isUserIdValid(userIdInput)){
             userIdError.setText("Please Check the spelling and try again.");
             txt_UserId.requestFocus();
             registerButton.setDisable(false);
             return;
         }
-        if(!Utils.isUserPasswordValid(userPassInput)){
+        if(!isUserPasswordValid(userPassInput)){
             passwordError.setText("Contain atleast one Uppercase, Lowercase, Number\nAleast 8 characters, At most 20.");
             txt_Password.requestFocus();
             registerButton.setDisable(false);
@@ -119,5 +119,14 @@ public class RegisterController implements Initializable{
     @FXML 
     private void toLoginForm(ActionEvent event) throws IOException{
         MyScene.switchScene(event, "scene/login/Login");
+    }
+    /*
+    * Validating user Id and user password from inputs
+    */
+    private boolean isUserIdValid(String input){
+        return Utils.isValid(input, "^(?=[A-Za-z0-9])(?=\\S+$).{8,20}$");
+    }
+    private boolean isUserPasswordValid(String input){
+        return Utils.isValid(input, "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$");
     }
 }

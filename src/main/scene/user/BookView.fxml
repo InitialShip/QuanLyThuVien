@@ -24,7 +24,7 @@
                      <children>
                         <Pane layoutX="17.0" layoutY="56.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="166.0" style="-fx-background-color: white; -fx-background-radius: 10 10 10 10;">
                            <children>
-                              <ComboBox fx:id="filterComboBox" layoutX="61.0" layoutY="-1.0" maxHeight="-Infinity" prefHeight="30.0" prefWidth="103.0" promptText="Filter" style="-fx-background-color: transparent; -fx-font-size: 14;" />
+                              <ComboBox fx:id="filterComboBox" layoutX="61.0" layoutY="-1.0" maxHeight="-Infinity" onAction="#comboboxSelect" prefHeight="30.0" prefWidth="103.0" promptText="Filter" style="-fx-background-color: transparent; -fx-font-size: 14;" />
                               <Label layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="51.0" style="-fx-border-color: black; -fx-border-width: 0 2 0 0;" text="Filter by" />
                            </children>
                         </Pane>
@@ -59,9 +59,9 @@
                         <AnchorPane fx:id="review" layoutX="470.0" prefHeight="605.0" prefWidth="470.0" />
                         <Pane layoutX="196.0" layoutY="56.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="256.0" style="-fx-background-color: white; -fx-background-radius: 10 10 10 10;">
                            <children>
-                              <ComboBox layoutX="67.0" layoutY="-1.0" maxHeight="-Infinity" prefHeight="30.0" prefWidth="103.0" promptText="Property" style="-fx-background-color: transparent; -fx-font-size: 14;" />
+                              <ComboBox fx:id="orderByComboBox" layoutX="67.0" layoutY="-1.0" maxHeight="-Infinity" onAction="#comboboxSelect" prefHeight="30.0" prefWidth="103.0" promptText="Property" style="-fx-background-color: transparent; -fx-font-size: 14;" />
                               <Label layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="53.0" style="-fx-border-color: black; -fx-border-width: 0 2 0 0;" text="Order By " />
-                              <ComboBox layoutX="170.0" maxHeight="-Infinity" prefHeight="30.0" prefWidth="84.0" promptText="ASC" style="-fx-background-color: transparent; -fx-font-size: 14;" />
+                              <ComboBox fx:id="sortOrderComboBox" layoutX="170.0" maxHeight="-Infinity" onAction="#comboboxSelect" prefHeight="30.0" prefWidth="84.0" promptText="sortOrder" style="-fx-background-color: transparent; -fx-font-size: 14;" />
                            </children>
                         </Pane>
                      </children></AnchorPane>

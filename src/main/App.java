@@ -21,6 +21,14 @@ public class App extends Application{
         stage.show();
     }
     public static void main(String[] args) throws Exception {
+
+        // String regex = "(?i)\\b"+"BA||cc"+".*?\\b";
+        // String str = "BAbeeg Bagge cccc ba";
+        // Pattern pattern = Pattern.compile(regex);
+        // Matcher matcher = pattern.matcher(str);
+        // while(matcher.find()) {
+        //     System.out.print(matcher.group()+" ");
+        //  }
         launch();
     }
 }

@@ -60,7 +60,7 @@ public class LoginController implements Initializable{
         userPassInput = txt_Password.getText();
         
         //Validating before database
-        if(!Utils.isUserIdValid(userIdInput)){
+        if(!isUserIdValid(userIdInput)){
             //txt_UserId.getStyleClass().add("error");
             userIdError.setText("Please Check the spelling and try again.");
             txt_UserId.requestFocus();
@@ -68,7 +68,7 @@ public class LoginController implements Initializable{
             rolesBox.setDisable(false);
             return;
         }
-        if(!Utils.isUserPasswordValid(userPassInput)){
+        if(!isUserPasswordValid(userPassInput)){
             passwordError.setText("That was the wrong password. Please try again.");
             txt_Password.setText("");
             txt_Password.requestFocus();
@@ -128,5 +128,14 @@ public class LoginController implements Initializable{
     @FXML 
     private void toRegisterForm(ActionEvent event) throws IOException{
         MyScene.switchScene(event, "scene/login/Register");
+    }
+    /*
+    * Validating user Id and user password from inputs
+    */
+    private boolean isUserIdValid(String input){
+        return Utils.isValid(input, "^(?=[A-Za-z0-9])(?=\\S+$).{8,20}$");
+    }
+    private boolean isUserPasswordValid(String input){
+        return Utils.isValid(input, "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$");
     }
 }

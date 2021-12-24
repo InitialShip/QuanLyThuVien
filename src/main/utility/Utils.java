@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,15 +22,7 @@ public class Utils {
         Matcher matcher = pattern.matcher(input);
         return matcher.matches();
     }
-    /*
-    * Validating user Id and user password from inputs
-    */
-    public static boolean isUserIdValid(String input){
-        return isValid(input, "^(?=[A-Za-z0-9])(?=\\S+$).{8,20}$");
-    }
-    public static boolean isUserPasswordValid(String input){
-        return isValid(input, "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$");
-    }
+    
     /* 
     * Get a SHA-256 hash of a given string
     */
@@ -61,5 +54,15 @@ public class Utils {
         alert.setContentText(message);
 
         return alert;
+    }
+    /*
+    * Reverse oder of a list
+    */
+    public static <T> void revlist(List<T> list){
+        if (list.size() <= 1 || list == null)
+            return;
+        T value = list.remove(0);
+        revlist(list);
+        list.add(value);
     }
 }
