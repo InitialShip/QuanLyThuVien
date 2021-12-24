@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="950.0" stylesheets="@BookViewStyle.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.user.BookViewController">
+   <children>
+      <TabPane layoutX="22.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+        <tabs>
+          <Tab text="Browse">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #485460; -fx-border-color: #f9ca24; -fx-border-width: 1 0 0 0;">
+                     <children>
+                        <Pane layoutX="17.0" layoutY="56.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="166.0" style="-fx-background-color: white; -fx-background-radius: 10 10 10 10;">
+                           <children>
+                              <ComboBox fx:id="filterComboBox" layoutX="61.0" layoutY="-1.0" maxHeight="-Infinity" onAction="#comboboxSelect" prefHeight="30.0" prefWidth="103.0" promptText="Filter" style="-fx-background-color: transparent; -fx-font-size: 14;" />
+                              <Label layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="51.0" style="-fx-border-color: black; -fx-border-width: 0 2 0 0;" text="Filter by" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="17.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="437.0" style="-fx-background-color: white; -fx-background-radius: 10 10 10 10;">
+                           <children>
+                              <ComboBox fx:id="searchComboBox" layoutX="-1.0" maxHeight="-Infinity" prefHeight="30.0" prefWidth="94.0" promptText="Search by" style="-fx-background-color: transparent; -fx-font-size: 14;" />
+                              <TextField fx:id="searchText" layoutX="92.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="305.0" promptText="Search for books" style="-fx-background-color: transparent; -fx-border-color: #485460; -fx-border-width: 0 0 0 2;">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </TextField>
+                              <Pane fx:id="searchButton" layoutX="397.0" onMouseClicked="#onSearch" prefHeight="30.0" prefWidth="40.0" style="-fx-background-color: #0be881; -fx-background-radius: 0 10 10 0; -fx-cursor: hand;">
+                                 <children>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../resource/loupe.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </Pane>
+                        <ScrollPane layoutY="109.0" prefHeight="496.0" prefWidth="470.0">
+                           <content>
+                              <VBox fx:id="layout" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                                 <padding>
+                                    <Insets left="2.0" right="2.0" />
+                                 </padding>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
+                        <AnchorPane fx:id="review" layoutX="470.0" prefHeight="605.0" prefWidth="470.0" />
+                        <Pane layoutX="196.0" layoutY="56.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="256.0" style="-fx-background-color: white; -fx-background-radius: 10 10 10 10;">
+                           <children>
+                              <ComboBox fx:id="orderByComboBox" layoutX="67.0" layoutY="-1.0" maxHeight="-Infinity" onAction="#comboboxSelect" prefHeight="30.0" prefWidth="103.0" promptText="Property" style="-fx-background-color: transparent; -fx-font-size: 14;" />
+                              <Label layoutX="14.0" layoutY="6.0" prefHeight="17.0" prefWidth="53.0" style="-fx-border-color: black; -fx-border-width: 0 2 0 0;" text="Order By " />
+                              <ComboBox fx:id="sortOrderComboBox" layoutX="170.0" maxHeight="-Infinity" onAction="#comboboxSelect" prefHeight="30.0" prefWidth="84.0" promptText="sortOrder" style="-fx-background-color: transparent; -fx-font-size: 14;" />
+                           </children>
+                        </Pane>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="tabRequest" text="Request 0/5">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-border-width: 1 0 0 0; -fx-border-color: #f9ca24;" />
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

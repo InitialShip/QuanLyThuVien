@@ -1,0 +1,10 @@
+.verticalTab {
+    -fx-background-color :  #ffffff;
+    -fx-background-radius : 5 0 0 5;
+}
+.verticalTab:hover {
+    -fx-background-color : #d1d8e0;
+}
+.verticalTab.selected {
+    -fx-background-color :  #fed330;
+}
