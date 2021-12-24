@@ -11,7 +11,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import main.data.BookData;
 import main.data.CategoryData;
@@ -24,6 +26,8 @@ public class BookViewController implements Initializable{
     @FXML private VBox layout;
     @FXML private AnchorPane review;
     @FXML private Tab tabRequest;
+    @FXML private Pane searchButton; 
+    @FXML private TextField searchText;
     @FXML private ComboBox<String> searchComboBox;
     @FXML private ComboBox<Category> filterComboBox;
     @FXML private ComboBox<String> orderByComboBox;
@@ -52,9 +56,18 @@ public class BookViewController implements Initializable{
             
     }
     @FXML
+    private void onSearch() throws IOException{
+        searchButton.setDisable(true);
+        layout.getChildren().clear();
+
+        displayList = searchBooks(BookData.getBooks());
+
+        displayBook();
+        searchButton.setDisable(false);
+    }
+    @FXML
     private void comboboxSelect() throws IOException{
         layout.getChildren().clear();
-        displayList.clear();
         displayList = applyFilter(BookData.getBooks());
 
         displayBook();
@@ -76,7 +89,8 @@ public class BookViewController implements Initializable{
             bookCardController.setData(book, myListener);
             layout.getChildren().add(bookCard);
         }
-        loadReview(BookData.getBooks().get(0));
+        if(!displayList.isEmpty())
+            loadReview(displayList.get(0));
     }
     private void initializeComboBoxes(){
         searchComboBox.setItems(FXCollections.observableArrayList("Title", "Authors","Year"));
@@ -89,12 +103,26 @@ public class BookViewController implements Initializable{
         orderByComboBox.setItems(FXCollections.observableArrayList("Title", "Authors","Year"));
         orderByComboBox.getSelectionModel().selectFirst();
 
-        sortOrderComboBox.setItems(FXCollections.observableArrayList("Descending","Ascending"));
+        sortOrderComboBox.setItems(FXCollections.observableArrayList("Ascending","Descending"));
         sortOrderComboBox.getSelectionModel().selectFirst();
     }
 
-    private List<Book> applyFilter(List<Book> input){
-        return sortOrder(orderBy(filterBy(input)));
+    private List<Book> searchBooks(List<Book> books){
+        if(searchText.getText().isBlank())
+            return applyFilter(books);
+        
+        switch (searchComboBox.getSelectionModel().getSelectedItem()) {
+            case "Title":
+                return BookData.findByTitle(searchText.getText(), applyFilter(books));
+            case "Authors":
+                return BookData.findByAuthor(searchText.getText(), applyFilter(books));
+            default:    
+                break;
+        }
+        return null;
+    }
+    private List<Book> applyFilter(List<Book> books){
+        return sortOrder(orderBy(filterBy(books)));
     }
     private List<Book> filterBy(List<Book> list){
         return BookData.filter(filterComboBox.getSelectionModel().getSelectedItem().getId());
@@ -113,9 +141,9 @@ public class BookViewController implements Initializable{
     private List<Book> sortOrder(List<Book> sortedList){
         switch (sortOrderComboBox.getSelectionModel().getSelectedItem()) {
             case "Ascending":
-                return BookData.reverse(sortedList);
-            case "Descending":
                 return sortedList;
+            case "Descending":
+                return BookData.reverse(sortedList);
         }
         return null;
     }

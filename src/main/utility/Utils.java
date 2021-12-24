@@ -15,7 +15,7 @@ public class Utils {
     /*
     * Is a string follow a set pattern? 
     */
-    public static boolean isValid(String input, String regex){
+    public static boolean isMatched(String input, String regex){
         Pattern pattern = Pattern.compile(regex);
         if (input == null)
             return false;

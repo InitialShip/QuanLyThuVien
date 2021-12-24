@@ -38,10 +38,7 @@ public class RegisterController implements Initializable{
         passwordError.setText("");
         confirmPassError.setText("");
     }
-    @FXML
-    private void close(){
-        javafx.application.Platform.exit();
-    }
+
     @FXML
     private void registerSubmit() throws SQLException{
         //set states
@@ -124,9 +121,9 @@ public class RegisterController implements Initializable{
     * Validating user Id and user password from inputs
     */
     private boolean isUserIdValid(String input){
-        return Utils.isValid(input, "^(?=[A-Za-z0-9])(?=\\S+$).{8,20}$");
+        return Utils.isMatched(input, "^(?=[A-Za-z0-9])(?=\\S+$).{8,20}$");
     }
     private boolean isUserPasswordValid(String input){
-        return Utils.isValid(input, "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$");
+        return Utils.isMatched(input, "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$");
     }
 }

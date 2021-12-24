@@ -39,6 +39,16 @@ public class BookData {
     public static void loadData() throws SQLException{
         BookDataService.getData();
     }
+    // find books
+    /*
+    * Will improve if I have time 
+    */
+    public static List<Book> findByTitle(String string, List<Book> list){
+        return list.stream().filter(b -> b.getTitle().toLowerCase().contains(string.toLowerCase()) == true).toList();
+    }
+    public static List<Book> findByAuthor(String string, List<Book> list){
+        return list.stream().filter(b ->  b.getAuthors().toLowerCase().contains(string.toLowerCase()) == true).toList();
+    }
     //filter by category
     public static List<Book> filter(int categoryId){
         // no filter applied
@@ -73,7 +83,7 @@ public class BookData {
         sortedList.sort(new Comparator<Book>() {
             @Override
             public int compare(Book b1, Book b2) {
-                return (b1.getYear()>b2.getYear())?-1:(b1.getYear()<b2.getYear())?1:0;
+                return (b1.getYear()<b2.getYear())?-1:(b1.getYear()>b2.getYear())?1:0;
             }
         });
         return sortedList;
