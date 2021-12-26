@@ -22,11 +22,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import main.entity.Book;
 import main.mySqlConnector.Connector;
-import main.service.BookDataService;
+import main.service.BookService;
 
 public class PrimaryController {
     List<Book> books = new ArrayList<>();
-    BookDataService bookService = new BookDataService();
+    BookService bookService = new BookService();
     @FXML
     private void sayHello() throws SQLException{
         //books = bookService.getBooks();

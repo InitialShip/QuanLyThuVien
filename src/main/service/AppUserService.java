@@ -4,13 +4,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import main.data.AppUserData;
 import main.entity.AppUser;
+import main.manager.AppUserManager;
 import main.mySqlConnector.Connector;
 
-public class AppUserDataService {
+public class AppUserService {
     public static void getData(String id) throws SQLException{
-        AppUserData.getInstance();
+        AppUserManager.getInstance();
 
         Connector.open();
         PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT * FROM school_data WHERE id = ?");
@@ -23,8 +23,9 @@ public class AppUserDataService {
                 rs.getString("sex"), 
                 rs.getDate("date_of_birth"), 
                 rs.getString("ocupation"));
-            AppUserData.addUser(user);
+            AppUserManager.addUser(user);
         }
+        statement.close();
         Connector.close();
     }
 }

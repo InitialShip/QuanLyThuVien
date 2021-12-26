@@ -1,4 +1,4 @@
-package main.data;
+package main.manager;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -6,19 +6,19 @@ import java.util.Comparator;
 import java.util.List;
 
 import main.entity.Book;
-import main.service.BookDataService;
+import main.service.BookService;
 import main.utility.Utils;
 
-public class BookData {
+public class BookManager {
     private static List<Book> books = null;
 
-    private static BookData instance = null;
-    private BookData(){
+    private static BookManager instance = null;
+    private BookManager(){
         books = new ArrayList<>();
     }
-    public static BookData getInstance() throws SQLException{
+    public static BookManager getInstance(){
         if (instance == null){
-            instance = new BookData();
+            instance = new BookManager();
         }
         return instance;
     }
@@ -37,7 +37,7 @@ public class BookData {
         books.add(book);
     }
     public static void loadData() throws SQLException{
-        BookDataService.getData();
+        BookService.getData();
     }
     // find books
     /*
@@ -47,7 +47,10 @@ public class BookData {
         return list.stream().filter(b -> b.getTitle().toLowerCase().contains(string.toLowerCase()) == true).toList();
     }
     public static List<Book> findByAuthor(String string, List<Book> list){
-        return list.stream().filter(b ->  b.getAuthors().toLowerCase().contains(string.toLowerCase()) == true).toList();
+        return list.stream().filter(b ->  b.getAuthor().toLowerCase().contains(string.toLowerCase()) == true).toList();
+    }
+    public static List<Book> findByYear(String year, List<Book> list){
+        return list.stream().filter(b ->  Integer.toString(b.getYear()).contains(year) == true).toList();
     }
     //filter by category
     public static List<Book> filter(int categoryId){
@@ -73,7 +76,7 @@ public class BookData {
         sortedList.sort(new Comparator<Book>() {
             @Override
             public int compare(Book b1, Book b2) {
-                return b1.getAuthors().compareTo(b2.getAuthors());
+                return b1.getAuthor().compareTo(b2.getAuthor());
             }
         });
         return sortedList;

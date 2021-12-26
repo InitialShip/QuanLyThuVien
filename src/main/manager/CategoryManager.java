@@ -1,22 +1,22 @@
-package main.data;
+package main.manager;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import main.entity.Category;
-import main.service.CategoryDataService;
+import main.service.CategoryService;
 
-public class CategoryData {
+public class CategoryManager {
     private static List<Category> categories = null;
 
-    private static CategoryData instance = null;
-    private CategoryData(){
+    private static CategoryManager instance = null;
+    private CategoryManager(){
         categories = new ArrayList<>();
     }
-    public static CategoryData getInstance(){
+    public static CategoryManager getInstance(){
         if (instance == null){
-            instance = new CategoryData();
+            instance = new CategoryManager();
         }
         return instance;
     }
@@ -25,12 +25,15 @@ public class CategoryData {
     public static List<Category> getCategories(){
         return categories;
     }
-    public static String getCategory(int id){
+    public static String getCategoryName(int id){
         return categories.stream().filter(c -> c.getId() == id).findFirst().orElse(null).getName();
+    }
+    public static Category getCategory(int id){
+        return categories.stream().filter(c -> c.getId() == id).findFirst().orElse(null);
     }
     //methods
     public static void loadData() throws SQLException{
-        CategoryDataService.getData();
+        CategoryService.getData();
     }
     public void addCategory(Category category){
         categories.add(category);

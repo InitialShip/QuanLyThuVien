@@ -76,6 +76,7 @@ public class RegisterController implements Initializable{
             PreparedStatement statement;
             ResultSet rs;
             // check if id is from school
+            //TODO bring to service
             statement = Connector.getCnt().prepareStatement("SELECT * FROM school_data WHERE id = ?");
             statement.setString(1, userIdInput);
             rs = statement.executeQuery();

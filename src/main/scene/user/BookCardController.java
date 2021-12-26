@@ -27,7 +27,7 @@ public class BookCardController implements Initializable{
         this.book = book;
         this.myListener = myListener;
         title.setText(book.getTitle());
-        authors.setText(book.getAuthors());
+        authors.setText(book.getAuthor());
     }
 
     @FXML

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.admin.AdminInterfaceController">
+   <children>
+      <TableView fx:id="tableView" layoutX="21.0" layoutY="98.0" onMouseClicked="#clickItem" prefHeight="527.0" prefWidth="600.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="100.0">
+         <columns>
+            <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
+            <TableColumn fx:id="titleColumn" prefWidth="75.0" text="Title" />
+            <TableColumn fx:id="authorColumn" prefWidth="75.0" text="Author" />
+            <TableColumn fx:id="yearColumn" minWidth="1.0" prefWidth="69.0" text="Year" />
+            <TableColumn fx:id="yeetColumn" prefWidth="72.0" text="Publisher" />
+            <TableColumn prefWidth="75.0" text="Column X" />
+         </columns>
+      </TableView>
+      <TextField layoutX="101.0" layoutY="37.0" prefHeight="25.0" prefWidth="510.0">
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
+      </TextField>
+      <ComboBox layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="87.0" />
+      <CheckBox layoutX="524.0" layoutY="73.0" mnemonicParsing="false" text="Hide disable" />
+      <MenuBar prefHeight="25.0" prefWidth="1100.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <ComboBox layoutX="401.0" layoutY="69.0" prefHeight="25.0" prefWidth="112.0" promptText="Disable Only" />
+   </children>
+</AnchorPane>

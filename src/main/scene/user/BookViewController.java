@@ -15,10 +15,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import main.data.BookData;
-import main.data.CategoryData;
 import main.entity.Book;
 import main.entity.Category;
+import main.manager.BookManager;
+import main.manager.CategoryManager;
 import main.utility.MyListener;
 import main.utility.MyScene;
 
@@ -47,7 +47,7 @@ public class BookViewController implements Initializable{
         };
         initializeComboBoxes();
         try {
-            displayList = applyFilter(BookData.getBooks());
+            displayList = applyFilter(BookManager.getBooks());
             displayBook();
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -60,7 +60,7 @@ public class BookViewController implements Initializable{
         searchButton.setDisable(true);
         layout.getChildren().clear();
 
-        displayList = searchBooks(BookData.getBooks());
+        displayList = searchBooks(BookManager.getBooks());
 
         displayBook();
         searchButton.setDisable(false);
@@ -68,7 +68,7 @@ public class BookViewController implements Initializable{
     @FXML
     private void comboboxSelect() throws IOException{
         layout.getChildren().clear();
-        displayList = applyFilter(BookData.getBooks());
+        displayList = applyFilter(BookManager.getBooks());
 
         displayBook();
     }
@@ -97,7 +97,7 @@ public class BookViewController implements Initializable{
         searchComboBox.getSelectionModel().selectFirst();
         
         filterComboBox.getItems().add(new Category(0, "Show All"));
-        filterComboBox.getItems().addAll(FXCollections.observableArrayList(CategoryData.getCategories()));
+        filterComboBox.getItems().addAll(FXCollections.observableArrayList(CategoryManager.getCategories()));
         filterComboBox.getSelectionModel().selectFirst();
 
         orderByComboBox.setItems(FXCollections.observableArrayList("Title", "Authors","Year"));
@@ -113,9 +113,11 @@ public class BookViewController implements Initializable{
         
         switch (searchComboBox.getSelectionModel().getSelectedItem()) {
             case "Title":
-                return BookData.findByTitle(searchText.getText(), applyFilter(books));
+                return BookManager.findByTitle(searchText.getText(), applyFilter(books));
             case "Authors":
-                return BookData.findByAuthor(searchText.getText(), applyFilter(books));
+                return BookManager.findByAuthor(searchText.getText(), applyFilter(books));
+            case "Year":
+                return BookManager.findByYear(searchText.getText(), applyFilter(books));
             default:    
                 break;
         }
@@ -125,16 +127,16 @@ public class BookViewController implements Initializable{
         return sortOrder(orderBy(filterBy(books)));
     }
     private List<Book> filterBy(List<Book> list){
-        return BookData.filter(filterComboBox.getSelectionModel().getSelectedItem().getId());
+        return BookManager.filter(filterComboBox.getSelectionModel().getSelectedItem().getId());
     }
     private List<Book> orderBy(List<Book> filteredList){
         switch(orderByComboBox.getSelectionModel().getSelectedItem()){
             case "Title" : 
-                return BookData.orderByTitle(filteredList);
+                return BookManager.orderByTitle(filteredList);
             case "Authors" :
-                return BookData.orderByAuthor(filteredList);
+                return BookManager.orderByAuthor(filteredList);
             case "Year" :
-                return BookData.orderByYear(filteredList);
+                return BookManager.orderByYear(filteredList);
         }
         return null;
     }
@@ -143,7 +145,7 @@ public class BookViewController implements Initializable{
             case "Ascending":
                 return sortedList;
             case "Descending":
-                return BookData.reverse(sortedList);
+                return BookManager.reverse(sortedList);
         }
         return null;
     }
