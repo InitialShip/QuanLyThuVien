@@ -19,10 +19,11 @@ import main.entity.Book;
 import main.entity.Category;
 import main.manager.BookManager;
 import main.manager.CategoryManager;
-import main.utility.MyListener;
+import main.myInterface.MyOnClickListener;
 import main.utility.MyScene;
 
 public class BookViewController implements Initializable{
+    //TODO change filter list like admin
     @FXML private VBox layout;
     @FXML private AnchorPane review;
     @FXML private Tab tabRequest;
@@ -34,12 +35,12 @@ public class BookViewController implements Initializable{
     @FXML private ComboBox<String> sortOrderComboBox;
 
 
-    private MyListener myListener;
+    private MyOnClickListener myListener;
     private static List<Book> displayList;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        myListener = new MyListener() {
+        myListener = new MyOnClickListener() {
             @Override
             public void onClickListener(Book book) throws IOException {
                 loadReview(book);

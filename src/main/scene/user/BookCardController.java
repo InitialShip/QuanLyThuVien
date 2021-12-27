@@ -9,21 +9,21 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import main.entity.Book;
-import main.utility.MyListener;
+import main.myInterface.MyOnClickListener;
 
 public class BookCardController implements Initializable{
     @FXML private Label title;
     @FXML private Label authors;
     @FXML private VBox interactVBox;
     private Book book;
-    private MyListener myListener;
+    private MyOnClickListener myListener;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         interactVBox.setOpacity(0);
         interactVBox.setDisable(true);
     }
-    public void setData(Book book, MyListener myListener){
+    public void setData(Book book, MyOnClickListener myListener){
         this.book = book;
         this.myListener = myListener;
         title.setText(book.getTitle());

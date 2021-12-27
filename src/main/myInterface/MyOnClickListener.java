@@ -1,9 +1,9 @@
-package main.utility;
+package main.myInterface;
 
 import java.io.IOException;
 
 import main.entity.Book;
 
-public interface MyListener {
+public interface MyOnClickListener {
     public void onClickListener(Book book)throws IOException;
 }

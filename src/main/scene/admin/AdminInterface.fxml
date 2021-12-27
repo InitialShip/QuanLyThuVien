@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Menu?>
@@ -13,17 +12,17 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.admin.AdminInterfaceController">
    <children>
-      <TableView fx:id="tableView" layoutX="21.0" layoutY="98.0" onMouseClicked="#clickItem" prefHeight="527.0" prefWidth="600.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="100.0">
+      <TableView fx:id="tableView" layoutX="21.0" layoutY="98.0" onMouseClicked="#clickItem" prefHeight="540.0" prefWidth="544.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="100.0">
          <columns>
             <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
             <TableColumn fx:id="titleColumn" prefWidth="75.0" text="Title" />
             <TableColumn fx:id="authorColumn" prefWidth="75.0" text="Author" />
             <TableColumn fx:id="yearColumn" minWidth="1.0" prefWidth="69.0" text="Year" />
-            <TableColumn fx:id="yeetColumn" prefWidth="72.0" text="Publisher" />
-            <TableColumn prefWidth="75.0" text="Column X" />
+            <TableColumn fx:id="publisherColumn" prefWidth="72.0" text="Publisher" />
+            <TableColumn fx:id="categoryColumn" prefWidth="75.0" text="Category" />
          </columns>
       </TableView>
-      <TextField layoutX="101.0" layoutY="37.0" prefHeight="25.0" prefWidth="510.0">
+      <TextField fx:id="txt_Search" layoutX="99.0" layoutY="57.0" prefHeight="25.0" prefWidth="454.0">
          <contextMenu>
             <ContextMenu>
               <items>
@@ -32,8 +31,7 @@
             </ContextMenu>
          </contextMenu>
       </TextField>
-      <ComboBox layoutX="14.0" layoutY="37.0" prefHeight="25.0" prefWidth="87.0" />
-      <CheckBox layoutX="524.0" layoutY="73.0" mnemonicParsing="false" text="Hide disable" />
+      <ComboBox fx:id="cbox_SearchOption" layoutX="12.0" layoutY="57.0" prefHeight="25.0" prefWidth="87.0" />
       <MenuBar prefHeight="25.0" prefWidth="1100.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
@@ -53,6 +51,13 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ComboBox layoutX="401.0" layoutY="69.0" prefHeight="25.0" prefWidth="112.0" promptText="Disable Only" />
+      <TableView layoutX="633.0" layoutY="100.0" prefHeight="540.0" prefWidth="497.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Order ID" />
+            <TableColumn prefWidth="75.0" text="User ID" />
+            <TableColumn prefWidth="75.0" text="Date" />
+            <TableColumn prefWidth="75.0" text="Status" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

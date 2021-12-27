@@ -34,12 +34,12 @@ public class BookService {
         statement.close();
         Connector.close();
     }
-    public static void updateData(Book book) throws SQLException{
+    public static int updateData(Book book) throws SQLException{
         Connector.open();
         Connector.getCnt().setAutoCommit(false);
-        String sql = "UPDATE book_detail SET title=?, author=?, description=?, year=?, publisher=?, category_id=?, location=?, book_cover=? WHERE id=?";
+        String sql = "UPDATE book_detail SET title=?, author=?, description=?, year=?, publisher=?, category_id=?, location=? WHERE id=?";
+        int result = 0;
         PreparedStatement statement = Connector.getCnt().prepareStatement(sql);
-        //statement.addBatch("");
         statement.setString(1, book.getTitle());
         statement.setString(2, book.getAuthor());
         statement.setString(3, book.getDescription());
@@ -47,11 +47,23 @@ public class BookService {
         statement.setString(5, book.getPublisher());
         statement.setInt(6, book.getCategoryId());
         statement.setString(7, book.getPlace());
-        statement.setBlob(8, book.getImageBinary());
-        statement.setString(9, book.getId());
+        statement.setString(8, book.getId());
+        result = statement.executeUpdate();
 
-        statement.executeUpdate();
-        Connector.getCnt().commit();
+        if(book.getImageBinary() != null){
+            statement = Connector.getCnt().prepareStatement("UPDATE book_detail SET  book_cover=? WHERE id=?");
+            statement.setBlob(1, book.getImageBinary());
+            statement.setString(2, book.getId());
+            result = statement.executeUpdate();
+        }
+
+        if(result == 1){
+            Connector.getCnt().commit();
+        } else{
+            Connector.getCnt().rollback();
+        }
+        statement.close();
         Connector.close();
+        return result;
     }
 }

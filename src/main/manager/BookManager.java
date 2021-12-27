@@ -29,12 +29,15 @@ public class BookManager {
     /*
     *   METHODS
     */
-    public static void reload() throws SQLException{
+    public static void reloadData() throws SQLException{
         books.clear();
         loadData();
     }
     public static void addBook(Book book){
         books.add(book);
+    }
+    public static Book getBook(String id){
+        return books.stream().filter(b -> b.getId() == id).findFirst().orElse(null);
     }
     public static void loadData() throws SQLException{
         BookService.getData();

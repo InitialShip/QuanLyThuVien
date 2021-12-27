@@ -28,6 +28,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import main.entity.Book;
 import main.entity.Category;
 import main.manager.CategoryManager;
+import main.myInterface.MyOnUpdateListener;
 import main.service.BookService;
 import main.utility.MyImage;
 import main.utility.Utils;
@@ -49,12 +50,15 @@ public class BookModifierController implements Initializable{
     @FXML private Button btn_ChoosePic;
     @FXML private Button btn_ResetPic;
     
+    private MyOnUpdateListener myListenter;
     private Book selectedBook;
-    public void setData(Book book){
+    public void setData(Book book, MyOnUpdateListener listener){
         this.selectedBook = book;
+        this.myListenter = listener;
         loadData();
     }
     private void loadData(){
+
         lb_bookId.setText(selectedBook.getId());
         txt_Title.setText(selectedBook.getTitle());
         txt_Author.setText(selectedBook.getAuthor());
@@ -63,17 +67,20 @@ public class BookModifierController implements Initializable{
         txt_Year.setText(Integer.toString(selectedBook.getYear()));
         cbox_Category.getSelectionModel().select(CategoryManager.getCategory(selectedBook.getCategoryId()));
         txt_Place.setText(selectedBook.getPlace());
-        //TODO if null
-        img_BookCover.setImage(MyImage.toImage(selectedBook.getImageBinary()));
+        if(selectedBook.getImageBinary() != null)
+            img_BookCover.setImage(MyImage.toImage(selectedBook.getImageBinary()));
     }
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         cbox_Category.setItems(FXCollections.observableArrayList(CategoryManager.getCategories()));
     }
-    // event
+    /*
+    * Event
+    */
     @FXML
     private void onUpdateClick() throws SQLException, FileNotFoundException{
-        Optional<ButtonType> option = Utils.getAlertBox("YEET", AlertType.CONFIRMATION).showAndWait();
+        btn_Update.setDisable(true);
+        Optional<ButtonType> option = Utils.getAlertBox("Do you want to save changes ?", AlertType.CONFIRMATION).showAndWait();
         if (option.get() == ButtonType.OK){
             try {
                 //TODO: check if null images
@@ -83,11 +90,19 @@ public class BookModifierController implements Initializable{
                 newBook.setAuthor(txt_Author.getText());
                 newBook.setDescription(txt_Description.getText());
                 newBook.setCategoryId(cbox_Category.getSelectionModel().getSelectedItem().getId());
-                newBook.setImageBinary(new FileInputStream(new File(fileStream)));
+
+                if (fileStream != null && !fileStream.isEmpty() )
+                    newBook.setImageBinary(new FileInputStream(new File(fileStream)));
+
                 newBook.setPublisher(txt_Publisher.getText());
                 newBook.setYear(Integer.parseInt(txt_Year.getText()));
+                //insert to database
                 BookService.updateData(newBook);
                 
+                //call parent stage to reload
+                myListenter.onUpdateListener();
+                
+                //TODO: handle it properly
             }catch (FileNotFoundException fe){
                 System.out.println("File error");
                 System.out.println(fe.getMessage());
@@ -97,8 +112,11 @@ public class BookModifierController implements Initializable{
             }catch (Exception e) {
                 System.out.println("Do not know");
                 System.out.println(e.getMessage());
+            }finally{
+                btn_Update.setDisable(false);
             }
         }
+        btn_Update.setDisable(false);
     }
     @FXML
     private void onResetInfoClick(){

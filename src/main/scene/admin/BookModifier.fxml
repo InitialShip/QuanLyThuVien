@@ -9,7 +9,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -46,7 +45,7 @@
       <Label layoutX="238.0" layoutY="254.0" text="Category :" />
       <Label layoutX="235.0" layoutY="18.0" text="ID :" />
       <CheckBox layoutX="699.0" layoutY="18.0" mnemonicParsing="false" text="Disable" />
-      <TableView layoutX="231.0" layoutY="297.0" prefHeight="200.0" prefWidth="400.0">
+      <TableView layoutX="359.0" layoutY="297.0" prefHeight="200.0" prefWidth="400.0">
         <columns>
           <TableColumn prefWidth="75.0" text="Sub ID" />
           <TableColumn prefWidth="75.0" text="Status" />
@@ -57,13 +56,9 @@
       <Label fx:id="lb_bookId" layoutX="302.0" layoutY="18.0" prefHeight="17.0" prefWidth="358.0" text="Book ID" />
       <Label layoutX="598.0" layoutY="254.0" text="Place :" />
       <TextField fx:id="txt_Place" layoutX="652.0" layoutY="250.0" prefHeight="25.0" prefWidth="106.0" promptText="Location" />
-      <ToolBar layoutX="17.0" layoutY="325.0" prefHeight="40.0" prefWidth="200.0">
-         <items>
-            <Button fx:id="btn_ChoosePic" mnemonicParsing="false" onAction="#onChoosePicClick" text="Choose Picture" />
-            <Button fx:id="btn_ResetPic" mnemonicParsing="false" onAction="#onResetPicClick" text="Reset Picture" />
-         </items>
-      </ToolBar>
-      <Button fx:id="btn_Update" layoutX="669.0" layoutY="345.0" mnemonicParsing="false" onAction="#onUpdateClick" prefHeight="25.0" prefWidth="90.0" text="Update" />
-      <Button fx:id="btn_ResetInfo" layoutX="669.0" layoutY="297.0" mnemonicParsing="false" onAction="#onResetInfoClick" prefHeight="25.0" prefWidth="90.0" text="Reset Info" />
+      <Button fx:id="btn_Update" layoutX="247.0" layoutY="333.0" mnemonicParsing="false" onAction="#onUpdateClick" prefHeight="25.0" prefWidth="90.0" text="Update" />
+      <Button fx:id="btn_ResetInfo" layoutX="247.0" layoutY="297.0" mnemonicParsing="false" onAction="#onResetInfoClick" prefHeight="25.0" prefWidth="90.0" text="Reset Info" />
+      <Button fx:id="btn_ResetPic" layoutX="14.0" layoutY="297.0" mnemonicParsing="false" onAction="#onResetPicClick" prefHeight="25.0" prefWidth="90.0" text="Reset Picture" />
+      <Button fx:id="btn_ChoosePic" layoutX="114.0" layoutY="297.0" mnemonicParsing="false" onAction="#onChoosePicClick" prefHeight="25.0" prefWidth="106.0" text="Choose Picture" />
    </children>
 </AnchorPane>
