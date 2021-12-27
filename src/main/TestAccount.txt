@@ -1,4 +1,6 @@
-remember to tribute icon creators
+admin account:
+ID: admin007
+PASS : Admin007
 
 1. user1
 ID : CS1960008
@@ -13,5 +15,3 @@ ID : CS1960069
 PASS : xyz123TY
 
 
-W 950
-H 590

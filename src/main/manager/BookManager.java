@@ -10,11 +10,11 @@ import main.service.BookService;
 import main.utility.Utils;
 
 public class BookManager {
-    private static List<Book> books = null;
+    private static List<Book> bookList = null;
 
     private static BookManager instance = null;
     private BookManager(){
-        books = new ArrayList<>();
+        bookList = new ArrayList<>();
     }
     public static BookManager getInstance(){
         if (instance == null){
@@ -24,34 +24,46 @@ public class BookManager {
     }
     //getter
     public static List<Book> getBooks(){
-        return books;
+        return bookList;
     }
     /*
     *   METHODS
     */
     public static void reloadData() throws SQLException{
-        books.clear();
+        bookList.clear();
         loadData();
     }
     public static void addBook(Book book){
-        books.add(book);
+        bookList.add(book);
     }
     public static Book getBook(String id){
-        return books.stream().filter(b -> b.getId() == id).findFirst().orElse(null);
+        return bookList.stream().filter(b -> b.getId() == id).findFirst().orElse(null);
     }
     public static void loadData() throws SQLException{
         BookService.getData();
     }
+    public static int updateBook(Book book) throws SQLException{
+        return BookService.updateData(book);
+    }
     // find books
-    /*
-    * Will improve if I have time 
-    */
+    /**
+     * Find books by title.
+     * @return List of books
+     */
     public static List<Book> findByTitle(String string, List<Book> list){
         return list.stream().filter(b -> b.getTitle().toLowerCase().contains(string.toLowerCase()) == true).toList();
     }
+    /**
+     * Find books by author
+     * @return List of books
+     */
     public static List<Book> findByAuthor(String string, List<Book> list){
         return list.stream().filter(b ->  b.getAuthor().toLowerCase().contains(string.toLowerCase()) == true).toList();
     }
+    /**
+     * Find books by published year.
+     * @return List of books.
+     */
     public static List<Book> findByYear(String year, List<Book> list){
         return list.stream().filter(b ->  Integer.toString(b.getYear()).contains(year) == true).toList();
     }
@@ -59,9 +71,9 @@ public class BookManager {
     public static List<Book> filter(int categoryId){
         // no filter applied
         if(categoryId == 0)
-            return new ArrayList<>(books);
+            return new ArrayList<>(bookList);
 
-        return books.stream().filter(b -> b.getCategoryId() == categoryId).toList();
+        return bookList.stream().filter(b -> b.getCategoryId() == categoryId).toList();
     }
     //sorting A->Z dsc
     public static List<Book> orderByTitle(List<Book> list){

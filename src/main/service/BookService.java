@@ -15,7 +15,7 @@ public class BookService {
 
         Connector.open();
         Statement statement = Connector.getCnt().createStatement();
-        ResultSet rs = statement.executeQuery("SELECT * FROM book_detail");
+        ResultSet rs = statement.executeQuery("SELECT * FROM book");
         while (rs.next()) {
             Book book = new Book();
             
@@ -37,7 +37,7 @@ public class BookService {
     public static int updateData(Book book) throws SQLException{
         Connector.open();
         Connector.getCnt().setAutoCommit(false);
-        String sql = "UPDATE book_detail SET title=?, author=?, description=?, year=?, publisher=?, category_id=?, location=? WHERE id=?";
+        String sql = "UPDATE book SET title=?, author=?, description=?, year=?, publisher=?, category_id=?, location=? WHERE id=?";
         int result = 0;
         PreparedStatement statement = Connector.getCnt().prepareStatement(sql);
         statement.setString(1, book.getTitle());
@@ -51,7 +51,7 @@ public class BookService {
         result = statement.executeUpdate();
 
         if(book.getImageBinary() != null){
-            statement = Connector.getCnt().prepareStatement("UPDATE book_detail SET  book_cover=? WHERE id=?");
+            statement = Connector.getCnt().prepareStatement("UPDATE book SET  book_cover=? WHERE id=?");
             statement.setBlob(1, book.getImageBinary());
             statement.setString(2, book.getId());
             result = statement.executeUpdate();
@@ -65,5 +65,29 @@ public class BookService {
         statement.close();
         Connector.close();
         return result;
+    }
+    public static int insertData(Book book) throws SQLException{
+        Connector.open();
+        Connector.getCnt().setAutoCommit(false);
+        int result = 0;
+        String sql = "INSERT INTO book(id,title,author,description,year,publisher,category_id,location,disable,date_added)" + 
+            "VALUES (?,?,?,?,?,?,?,?,?,?);";
+        PreparedStatement statement = Connector.getCnt().prepareStatement(sql);
+
+        result = statement.executeUpdate();
+        Connector.close();
+        return result;
+    }
+    public static Boolean isIdExisted(String bookId) throws SQLException{
+        Connector.open();
+        PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT id FROM book WHERE id = ?");
+        ResultSet rs = statement.executeQuery();
+
+        statement.close();
+        Connector.close();
+        if(rs.isBeforeFirst()){
+            return true;
+        }
+        return false;
     }
 }

@@ -27,10 +27,9 @@ import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 import main.entity.Book;
 import main.entity.Category;
+import main.manager.BookManager;
 import main.manager.CategoryManager;
 import main.myInterface.MyOnUpdateListener;
-import main.service.BookService;
-import main.utility.MyImage;
 import main.utility.Utils;
 
 public class BookModifierController implements Initializable{
@@ -58,7 +57,6 @@ public class BookModifierController implements Initializable{
         loadData();
     }
     private void loadData(){
-
         lb_bookId.setText(selectedBook.getId());
         txt_Title.setText(selectedBook.getTitle());
         txt_Author.setText(selectedBook.getAuthor());
@@ -67,8 +65,7 @@ public class BookModifierController implements Initializable{
         txt_Year.setText(Integer.toString(selectedBook.getYear()));
         cbox_Category.getSelectionModel().select(CategoryManager.getCategory(selectedBook.getCategoryId()));
         txt_Place.setText(selectedBook.getPlace());
-        if(selectedBook.getImageBinary() != null)
-            img_BookCover.setImage(MyImage.toImage(selectedBook.getImageBinary()));
+        img_BookCover.setImage(selectedBook.getImage());
     }
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -83,7 +80,7 @@ public class BookModifierController implements Initializable{
         Optional<ButtonType> option = Utils.getAlertBox("Do you want to save changes ?", AlertType.CONFIRMATION).showAndWait();
         if (option.get() == ButtonType.OK){
             try {
-                //TODO: check if null images
+                //update info
                 Book newBook = new Book();
                 newBook.setId(lb_bookId.getText());
                 newBook.setTitle(txt_Title.getText());
@@ -97,21 +94,23 @@ public class BookModifierController implements Initializable{
                 newBook.setPublisher(txt_Publisher.getText());
                 newBook.setYear(Integer.parseInt(txt_Year.getText()));
                 //insert to database
-                BookService.updateData(newBook);
+                if(BookManager.updateBook(newBook) == 1){
+                    //call parent stage to reload
+                    myListenter.onUpdateListener();
+                    Utils.getAlertBox("Update successful!", AlertType.INFORMATION).showAndWait();
+                }else{
+                    Utils.getAlertBox("Update failed!", AlertType.ERROR).showAndWait();
+                }
                 
-                //call parent stage to reload
-                myListenter.onUpdateListener();
-                
-                //TODO: handle it properly
             }catch (FileNotFoundException fe){
-                System.out.println("File error");
-                System.out.println(fe.getMessage());
+                onResetPicClick();
+                Utils.getAlertBox("Image can not be found!", AlertType.ERROR).showAndWait();
             }catch(SQLException se){
-                System.out.println("SQl error");
-                System.out.println(se.getMessage());
+                onResetInfoClick();
+                onResetPicClick();
+                Utils.getAlertBox("Can not update to database", AlertType.ERROR).showAndWait();
             }catch (Exception e) {
-                System.out.println("Do not know");
-                System.out.println(e.getMessage());
+                Utils.getAlertBox("Opps something went wrong!", AlertType.ERROR).showAndWait();
             }finally{
                 btn_Update.setDisable(false);
             }
@@ -120,7 +119,14 @@ public class BookModifierController implements Initializable{
     }
     @FXML
     private void onResetInfoClick(){
-        
+        lb_bookId.setText(selectedBook.getId());
+        txt_Title.setText(selectedBook.getTitle());
+        txt_Author.setText(selectedBook.getAuthor());
+        txt_Description.setText(selectedBook.getDescription());
+        txt_Publisher.setText(selectedBook.getPublisher());
+        txt_Year.setText(Integer.toString(selectedBook.getYear()));
+        cbox_Category.getSelectionModel().select(CategoryManager.getCategory(selectedBook.getCategoryId()));
+        txt_Place.setText(selectedBook.getPlace());
     }
     private String fileStream;
     @FXML
@@ -139,6 +145,7 @@ public class BookModifierController implements Initializable{
     }
     @FXML
     private void onResetPicClick(){
-        
+        fileStream = null;
+        img_BookCover.setImage(selectedBook.getImage());
     }
 }

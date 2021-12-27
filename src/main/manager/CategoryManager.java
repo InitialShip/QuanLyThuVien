@@ -8,11 +8,11 @@ import main.entity.Category;
 import main.service.CategoryService;
 
 public class CategoryManager {
-    private static List<Category> categories = null;
+    private static List<Category> categoryList = null;
 
     private static CategoryManager instance = null;
     private CategoryManager(){
-        categories = new ArrayList<>();
+        categoryList = new ArrayList<>();
     }
     public static CategoryManager getInstance(){
         if (instance == null){
@@ -23,19 +23,19 @@ public class CategoryManager {
 
     //getter
     public static List<Category> getCategories(){
-        return categories;
+        return categoryList;
     }
     public static String getCategoryName(int id){
-        return categories.stream().filter(c -> c.getId() == id).findFirst().orElse(null).getName();
+        return categoryList.stream().filter(c -> c.getId() == id).findFirst().orElse(null).getName();
     }
     public static Category getCategory(int id){
-        return categories.stream().filter(c -> c.getId() == id).findFirst().orElse(null);
+        return categoryList.stream().filter(c -> c.getId() == id).findFirst().orElse(null);
     }
     //methods
     public static void loadData() throws SQLException{
         CategoryService.getData();
     }
     public void addCategory(Category category){
-        categories.add(category);
+        categoryList.add(category);
     }
 }
