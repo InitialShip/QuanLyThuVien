@@ -71,6 +71,7 @@ public class LoginController implements Initializable{
             return;
         }
         //Validating with database
+        //TODO bring these to service
         if (rolesBox.getValue() == "User"){
             try {
                 Connector.open();

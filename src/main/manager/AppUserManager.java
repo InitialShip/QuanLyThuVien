@@ -1,20 +1,20 @@
-package main.data;
+package main.manager;
 
 import java.sql.SQLException;
 
 import main.entity.AppUser;
-import main.service.AppUserDataService;
+import main.service.AppUserService;
 
-public class AppUserData {
+public class AppUserManager {
     private static AppUser user = null;
     
-    private static AppUserData instance = null;
-    private AppUserData(){
+    private static AppUserManager instance = null;
+    private AppUserManager(){
         user = new AppUser();
     }
-    public static AppUserData getInstance(){
+    public static AppUserManager getInstance(){
         if (instance == null){
-            instance = new AppUserData();
+            instance = new AppUserManager();
         }
         return instance;
     }
@@ -23,10 +23,10 @@ public class AppUserData {
         return user;
     }
     public static void addUser(AppUser user){
-        AppUserData.user = user;
+        AppUserManager.user = user;
     }
     public void loadData(String id) throws SQLException{
-        AppUserDataService.getData(id);
+        AppUserService.getData(id);
     }
     public void reset(){
         user = null;

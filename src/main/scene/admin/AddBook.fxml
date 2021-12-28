@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.admin.AddBookController">
+   <children>
+      <TextField fx:id="txt_Id" layoutX="302.0" layoutY="14.0" prefHeight="25.0" prefWidth="182.0" promptText="Book ID">
+         <tooltip>
+            <Tooltip text="Can not empty" />
+         </tooltip>
+      </TextField>
+      <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="275.0" prefWidth="200.0" style="-fx-border-color: black; -fx-border-width: 2 2 2 2;">
+         <children>
+            <ImageView fx:id="img_BookCover" fitHeight="275.0" fitWidth="200.0" pickOnBounds="true" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+               <image>
+                  <Image url="@../../resource/placeholder.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Label layoutX="235.0" layoutY="53.0" text="Title : " />
+      <TextField fx:id="txt_Title" layoutX="302.0" layoutY="49.0" prefHeight="25.0" prefWidth="457.0" promptText="Title" />
+      <Label layoutX="235.0" layoutY="87.0" text="Author :" />
+      <TextField fx:id="txt_Author" layoutX="302.0" layoutY="83.0" prefHeight="25.0" prefWidth="457.0" promptText="Author" />
+      <Label layoutX="235.0" layoutY="120.0" text="Description :" />
+      <TextArea fx:id="txt_Description" layoutX="302.0" layoutY="119.0" prefHeight="97.0" prefWidth="457.0" promptText="Enter description" wrapText="true" />
+      <Label layoutX="235.0" layoutY="239.0" text="Publisher :" />
+      <TextField fx:id="txt_Publisher" layoutX="300.0" layoutY="235.0" prefHeight="25.0" prefWidth="457.0" promptText="Publisher" />
+      <Label layoutX="440.0" layoutY="274.0" text="Year :" />
+      <ComboBox fx:id="cbox_Category" layoutX="299.0" layoutY="270.0" prefHeight="25.0" prefWidth="130.0" promptText="Categories" />
+      <TextField fx:id="txt_Year" layoutX="482.0" layoutY="270.0" prefHeight="25.0" prefWidth="94.0" promptText="Published year" />
+      <Label layoutX="236.0" layoutY="274.0" text="Category :" />
+      <Label layoutX="235.0" layoutY="18.0" text="ID :" />
+      <CheckBox fx:id="ck_Disable" layoutX="699.0" layoutY="18.0" mnemonicParsing="false" text="Disable" />
+      <Label layoutX="596.0" layoutY="274.0" text="Place :" />
+      <TextField fx:id="txt_Place" layoutX="650.0" layoutY="270.0" prefHeight="25.0" prefWidth="106.0" promptText="Location" />
+      <Button fx:id="btn_Confirm" layoutX="669.0" layoutY="310.0" mnemonicParsing="false" onAction="#onConfirmClick" prefHeight="25.0" prefWidth="90.0" text="Confirm" />
+      <Button fx:id="btn_ResetInfo" layoutX="568.0" layoutY="310.0" mnemonicParsing="false" onAction="#onResetInfoClick" prefHeight="25.0" prefWidth="90.0" text="Reset Info" />
+      <Button fx:id="btn_ResetPic" layoutX="14.0" layoutY="297.0" mnemonicParsing="false" onAction="#onResetPicClick" prefHeight="25.0" prefWidth="90.0" text="Reset Picture" />
+      <Button fx:id="btn_ChoosePic" layoutX="114.0" layoutY="297.0" mnemonicParsing="false" onAction="#onChoosePicClick" prefHeight="25.0" prefWidth="106.0" text="Choose Picture" />
+      <DatePicker fx:id="dp_DateAdded" editable="false" layoutX="313.0" layoutY="310.0" />
+      <Label layoutX="236.0" layoutY="314.0" text="Date Added :" />
+   </children>
+</AnchorPane>

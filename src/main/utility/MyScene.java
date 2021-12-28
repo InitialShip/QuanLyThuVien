@@ -12,13 +12,6 @@ import main.App;
 
 public class MyScene {
     /*
-    * Get fxml relative to App class
-    */
-    public static Parent loadFXML(String fxml) throws IOException{
-        FXMLLoader fxmlLoader = getFXML(fxml);
-        return fxmlLoader.load();
-    }
-    /*
     * Switch to new scene relative to App class
     */
     public static void switchScene(ActionEvent event, String fxml) throws IOException{
@@ -28,9 +21,25 @@ public class MyScene {
         stage.show();
     }
     /*
+    * Get fxml relative to App class
+    */
+    public static Parent loadFXML(String fxml) throws IOException{
+        FXMLLoader fxmlLoader = getFXML(fxml);
+        return fxmlLoader.load();
+    }
+    /*
     * Get FXMLloader
     */
     public static FXMLLoader getFXML(String fxml){
         return new FXMLLoader(App.class.getResource(fxml+".fxml"));
+    }
+
+    /*
+    * open child scene on child stage with controller
+    */
+    public static <T> Object openChildScene(Stage childStage,String fxml) throws IOException{
+        FXMLLoader fxmlLoader = getFXML(fxml);
+        childStage.setScene(new Scene(fxmlLoader.load()));
+        return fxmlLoader.getController();
     }
 }

@@ -52,7 +52,6 @@ public class Utils {
     public static Alert getAlertBox(String message, Alert.AlertType type){
         Alert alert = new Alert(type);
         alert.setContentText(message);
-
         return alert;
     }
     /*

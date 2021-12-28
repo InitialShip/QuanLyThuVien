@@ -9,8 +9,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import main.data.BookData;
-import main.data.CategoryData;
+import main.manager.BookManager;
+import main.manager.CategoryManager;
 import main.utility.MyScene;
 
 public class UserInterfaceController implements Initializable{
@@ -22,8 +22,8 @@ public class UserInterfaceController implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         try {
             //initialize library data
-            CategoryData.loadData();
-            BookData.loadData();
+            CategoryManager.loadData();
+            BookManager.loadData();
         
             toBookView();
         } catch (IOException e) {

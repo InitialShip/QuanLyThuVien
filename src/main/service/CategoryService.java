@@ -4,13 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import main.data.CategoryData;
 import main.entity.Category;
+import main.manager.CategoryManager;
 import main.mySqlConnector.Connector;
 
-public class CategoryDataService {
+public class CategoryService {
     public static void getData() throws SQLException{
-        CategoryData categoryData = CategoryData.getInstance();
+        CategoryManager categoryData = CategoryManager.getInstance();
 
         Connector.open();
         Statement statement = Connector.getCnt().createStatement();
@@ -18,6 +18,7 @@ public class CategoryDataService {
         while(rs.next()){
             categoryData.addCategory(new Category(rs.getInt("id"), rs.getString("name"))); 
         }
+        statement.close();
         Connector.close();
     }
 }
