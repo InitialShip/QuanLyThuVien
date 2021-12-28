@@ -9,7 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import main.entity.Book;
-import main.myInterface.MyOnClickListener;
+import main.myListener.MyOnClickListener;
 
 public class BookCardController implements Initializable{
     @FXML private Label title;

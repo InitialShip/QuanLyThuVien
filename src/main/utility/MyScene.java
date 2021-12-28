@@ -37,7 +37,7 @@ public class MyScene {
     /*
     * open child scene on child stage with controller
     */
-    public static <T> Object openChildScene(Stage childStage ,String fxml) throws IOException{
+    public static <T> Object openChildScene(Stage childStage,String fxml) throws IOException{
         FXMLLoader fxmlLoader = getFXML(fxml);
         childStage.setScene(new Scene(fxmlLoader.load()));
         return fxmlLoader.getController();

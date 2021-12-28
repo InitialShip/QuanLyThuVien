@@ -42,8 +42,14 @@ public class BookManager {
     public static void loadData() throws SQLException{
         BookService.getData();
     }
-    public static int updateBook(Book book) throws SQLException{
+    public static Boolean updateBook(Book book) throws SQLException{
         return BookService.updateData(book);
+    }
+    public static Boolean insertBook(Book book) throws SQLException{
+        return BookService.insertData(book);
+    }
+    public static Boolean isIdExistd(String id) throws SQLException{
+        return BookService.isIdExisted(id);
     }
     // find books
     /**

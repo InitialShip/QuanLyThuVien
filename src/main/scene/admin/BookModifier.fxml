@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -42,13 +43,15 @@
       <TextField fx:id="txt_Year" layoutX="482.0" layoutY="270.0" prefHeight="25.0" prefWidth="94.0" promptText="Published year" />
       <Label layoutX="236.0" layoutY="274.0" text="Category :" />
       <Label layoutX="235.0" layoutY="18.0" text="ID :" />
-      <CheckBox layoutX="699.0" layoutY="18.0" mnemonicParsing="false" text="Disable" />
+      <CheckBox fx:id="ck_Disable" layoutX="699.0" layoutY="18.0" mnemonicParsing="false" text="Disable" />
       <Label fx:id="lb_bookId" layoutX="302.0" layoutY="18.0" prefHeight="17.0" prefWidth="358.0" text="Book ID" />
       <Label layoutX="596.0" layoutY="274.0" text="Place :" />
       <TextField fx:id="txt_Place" layoutX="650.0" layoutY="270.0" prefHeight="25.0" prefWidth="106.0" promptText="Location" />
-      <Button fx:id="btn_Update" layoutX="439.0" layoutY="333.0" mnemonicParsing="false" onAction="#onUpdateClick" prefHeight="25.0" prefWidth="90.0" text="Update" />
-      <Button fx:id="btn_ResetInfo" layoutX="257.0" layoutY="333.0" mnemonicParsing="false" onAction="#onResetInfoClick" prefHeight="25.0" prefWidth="90.0" text="Reset Info" />
+      <Button fx:id="btn_Update" layoutX="669.0" layoutY="310.0" mnemonicParsing="false" onAction="#onUpdateClick" prefHeight="25.0" prefWidth="90.0" text="Update" />
+      <Button fx:id="btn_ResetInfo" layoutX="560.0" layoutY="310.0" mnemonicParsing="false" onAction="#onResetInfoClick" prefHeight="25.0" prefWidth="90.0" text="Reset Info" />
       <Button fx:id="btn_ResetPic" layoutX="14.0" layoutY="297.0" mnemonicParsing="false" onAction="#onResetPicClick" prefHeight="25.0" prefWidth="90.0" text="Reset Picture" />
       <Button fx:id="btn_ChoosePic" layoutX="114.0" layoutY="297.0" mnemonicParsing="false" onAction="#onChoosePicClick" prefHeight="25.0" prefWidth="106.0" text="Choose Picture" />
+      <DatePicker fx:id="dp_DateAdded" editable="false" layoutX="313.0" layoutY="310.0" />
+      <Label layoutX="234.0" layoutY="314.0" text="Date Added :" />
    </children>
 </AnchorPane>

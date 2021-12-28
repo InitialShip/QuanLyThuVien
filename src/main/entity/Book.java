@@ -1,6 +1,8 @@
 package main.entity;
 
 import java.io.InputStream;
+import java.sql.Date;
+import java.time.LocalDate;
 
 import javafx.scene.image.Image;
 import main.utility.MyImage;
@@ -15,20 +17,27 @@ public class Book {
     private int categoryId;
     private String place;
     private InputStream imageBinary;
-    private Image image; //Only used at app
+    private Image image; //Only used to display
+    private boolean isDisabled;
+    private Date dateAdded;
     //constructor
     public Book() {
     }
-    public Book(String id, String title, String author, String description, int year, String publisher, int categoryId) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.description = description;
-        this.year = year;
-        this.publisher = publisher;
-        this.categoryId = categoryId;
-    }
     //getter & setter
+    public boolean isDisabled() {
+        return isDisabled;
+    }
+    public void setDisabled(boolean isDisabled) {
+        this.isDisabled = isDisabled;
+    }
+    public Date getDateAdded() {
+        if(dateAdded == null)
+            return Date.valueOf(LocalDate.now());
+        return dateAdded;
+    }
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
+    }
     public String getId() {
         return id;
     }

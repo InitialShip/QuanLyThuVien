@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -26,7 +27,7 @@ import javafx.util.Callback;
 import main.entity.Book;
 import main.manager.BookManager;
 import main.manager.CategoryManager;
-import main.myInterface.MyOnUpdateListener;
+import main.myListener.MyOnUpdateListener;
 import main.utility.MyScene;
 
 public class AdminInterfaceController implements Initializable {
@@ -37,6 +38,7 @@ public class AdminInterfaceController implements Initializable {
     @FXML private TableColumn<Book, Integer> yearColumn;
     @FXML private TableColumn<Book, String> publisherColumn;
     @FXML private TableColumn<Book, String> categoryColumn;
+    @FXML private TableColumn<Book, String> disabledColumn;
 
     ObservableList<Book> displayList;
     private MyOnUpdateListener myListener;
@@ -45,14 +47,6 @@ public class AdminInterfaceController implements Initializable {
     @FXML private TextField txt_Search;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        myListener = new MyOnUpdateListener() {
-
-            @Override
-            public void onUpdateListener() throws SQLException {
-                reloadData();   
-            }
-        };
-
         cbox_SearchOption.setItems(FXCollections.observableArrayList("ID","Title", "Author", "Year"));
         cbox_SearchOption.getSelectionModel().selectFirst();
         try {
@@ -72,16 +66,21 @@ public class AdminInterfaceController implements Initializable {
         authorColumn.setCellValueFactory(new PropertyValueFactory<Book,String>("author"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<Book,Integer>("year"));
         publisherColumn.setCellValueFactory(new PropertyValueFactory<Book,String>("publisher"));
-       
         categoryColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Book,String>,ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(CellDataFeatures<Book, String> b) {
-                if(b.getValue() != null){
+                if(b.getValue() != null)
                     return new SimpleStringProperty(CategoryManager.getCategoryName(b.getValue().getCategoryId()));
-                }
                 return null;
             }
-            
+        });
+        disabledColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Book,String>,ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Book, String> b) {
+                if(b.getValue() != null)
+                    return new SimpleStringProperty(b.getValue().isDisabled()?"Disabled":"");
+                return null;
+            }
         });
 
         loadTable();
@@ -122,6 +121,14 @@ public class AdminInterfaceController implements Initializable {
         SortedList<Book> sortedList = new SortedList<> (filteredList);
         sortedList.comparatorProperty().bind(tableView.comparatorProperty());
         tableView.setItems(filteredList);
+        
+        myListener = new MyOnUpdateListener() {
+            @Override
+            public void update() throws SQLException {
+                reloadData();      
+            }
+        };
+
     }
     //
     private void loadTable(){
@@ -135,8 +142,8 @@ public class AdminInterfaceController implements Initializable {
     /*
     * Event
     */
-    private static Stage secondStage;
-    private static BookModifierController controller;
+    private static Stage modifier;
+    private static BookModifierController updateController;
     @FXML
     public void clickItem(MouseEvent event) throws IOException
     {
@@ -145,23 +152,39 @@ public class AdminInterfaceController implements Initializable {
             Book book = tableView.getSelectionModel().getSelectedItem();   
             if (book == null)
                 return;
-            if(secondStage == null)
+            if(modifier == null)
             {
-                secondStage = new Stage();
-                secondStage.setResizable(false);
-                secondStage.setTitle("Book Modifier");
-                controller = (BookModifierController)MyScene.openChildScene(secondStage, "scene/admin/BookModifier");
-                
-                secondStage.initOwner((Stage)((Node)event.getSource()).getScene().getWindow());
+                modifier = new Stage();
+                modifier.setResizable(false);
+                modifier.setTitle("Book Modifier");
+                updateController = (BookModifierController)MyScene.openChildScene(modifier,"scene/admin/BookModifier");
+                updateController.setListener(myListener);
+                modifier.initOwner((Stage)((Node)event.getSource()).getScene().getWindow());
             }
-            controller.setData(book, myListener);
-
-            secondStage.show();
-            secondStage.toFront();
+            updateController.setData(book);
+            modifier.show();
+            modifier.toFront();
         }
     }
+    private static Stage bookAdder;
+    private static AddBookController adderController;
     @FXML
-    private void onVisualChange(){
-
+    private void onBtnAddBookSelect(ActionEvent event) throws IOException{
+        try {
+            if(bookAdder == null)
+            {
+                bookAdder = new Stage();
+                bookAdder.setResizable(false);
+                bookAdder.setTitle("Book Modifier");
+                adderController = (AddBookController)MyScene.openChildScene(bookAdder,"scene/admin/AddBook");
+                adderController.setListener(myListener);
+                bookAdder.initOwner((Stage)((Node)event.getSource()).getScene().getWindow());
+            }
+            bookAdder.show();
+            bookAdder.toFront();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
     }
 }

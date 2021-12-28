@@ -52,7 +52,7 @@
       <Button fx:id="btn_ResetInfo" layoutX="568.0" layoutY="310.0" mnemonicParsing="false" onAction="#onResetInfoClick" prefHeight="25.0" prefWidth="90.0" text="Reset Info" />
       <Button fx:id="btn_ResetPic" layoutX="14.0" layoutY="297.0" mnemonicParsing="false" onAction="#onResetPicClick" prefHeight="25.0" prefWidth="90.0" text="Reset Picture" />
       <Button fx:id="btn_ChoosePic" layoutX="114.0" layoutY="297.0" mnemonicParsing="false" onAction="#onChoosePicClick" prefHeight="25.0" prefWidth="106.0" text="Choose Picture" />
-      <DatePicker fx:id="dp_DateAdded" layoutX="313.0" layoutY="310.0" />
+      <DatePicker fx:id="dp_DateAdded" editable="false" layoutX="313.0" layoutY="310.0" />
       <Label layoutX="236.0" layoutY="314.0" text="Date Added :" />
    </children>
 </AnchorPane>
