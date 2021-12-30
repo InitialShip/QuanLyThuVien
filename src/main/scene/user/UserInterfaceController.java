@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import main.manager.AppUserManager;
 import main.manager.BookManager;
 import main.manager.CategoryManager;
 import main.utility.MyScene;
@@ -21,8 +22,11 @@ public class UserInterfaceController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            AppUserManager.getInstance();
             //initialize library data
+            CategoryManager.getInstance();
             CategoryManager.loadData();
+            BookManager.getInstance();
             BookManager.loadData();
         
             toBookView();

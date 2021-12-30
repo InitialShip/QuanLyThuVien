@@ -2,8 +2,6 @@ package main.scene.login;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -16,6 +14,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import main.mySqlConnector.Connector;
+import main.service.RegisterService;
 import main.utility.MyScene;
 import main.utility.Utils;
 
@@ -71,41 +70,20 @@ public class RegisterController implements Initializable{
         }
         //database check
         try {
-            Connector.open();
-            Connector.getCnt().setAutoCommit(false);
-            PreparedStatement statement;
-            ResultSet rs;
-            // check if id is from school
-            //TODO bring to service
-            statement = Connector.getCnt().prepareStatement("SELECT * FROM school_data WHERE id = ?");
-            statement.setString(1, userIdInput);
-            rs = statement.executeQuery();
-            if(!rs.isBeforeFirst()){
+            if(!RegisterService.isFromSchool(userIdInput)){
                 userIdError.setText("ID does not exist. Please try again.");
                 userIdError.requestFocus();
-                registerButton.setDisable(false);
-                return;
-            } 
-            
-            // check if already have an account
-            statement = Connector.getCnt().prepareStatement("SELECT * FROM user_account WHERE user_id = ?");
-            statement.setString(1, userIdInput);
-            rs = statement.executeQuery();
-            if(rs.isBeforeFirst()){
+            }else
+            if(!RegisterService.isAccountExisted(userIdInput)){
+                if(RegisterService.register(userIdInput, userPassInput)){
+                    Utils.getAlertBox("Register Successful!", AlertType.INFORMATION).showAndWait();
+                }else{
+                    Utils.getAlertBox("Register failed!", AlertType.ERROR).showAndWait();
+                }
+            }else{
                 userIdError.setText("You are already have an account.");
                 userIdError.requestFocus();
-                registerButton.setDisable(false);
-                return;
-            } 
-            
-            //insert 
-            statement = Connector.getCnt().prepareStatement("INSERT INTO user_account VALUES(?,?)");
-            statement.setString(1, userIdInput);
-            statement.setString(2, Utils.getEncryted(userIdInput+userPassInput));
-
-            statement.executeUpdate(); // check returned values
-            Connector.getCnt().commit();
-            Utils.getAlertBox("Successful!", AlertType.INFORMATION).show();;
+            }
         }catch (Exception e) {
             System.out.println(e.getMessage());
         }

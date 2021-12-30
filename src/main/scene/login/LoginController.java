@@ -2,11 +2,10 @@ package main.scene.login;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +18,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import main.mySqlConnector.Connector;
+import main.service.LoginService;
 import main.utility.MyScene;
 import main.utility.Utils;
 
@@ -34,14 +34,20 @@ public class LoginController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ObservableList<String> roles = FXCollections.observableArrayList("User", "Librarian");
+        ObservableList<String> roles = FXCollections.observableArrayList("User", "Admin");
         rolesBox.setItems(roles);
         rolesBox.getSelectionModel().selectFirst();
 
         userIdError.setText("");
         passwordError.setText("");
+        try {
+            Connector.open();
+            Connector.close();
+        } catch (Exception e) {
+            Utils.getAlertBox("Can not connect to database", AlertType.ERROR).showAndWait();
+            Platform.exit();
+        }
     }
-    
     @FXML
     private void loginSubmit(ActionEvent event) throws SQLException{
         //set states
@@ -55,7 +61,6 @@ public class LoginController implements Initializable{
         
         //Validating before database
         if(!isUserIdValid(userIdInput)){
-            //txt_UserId.getStyleClass().add("error");
             userIdError.setText("Please Check the spelling and try again.");
             txt_UserId.requestFocus();
             loginButton.setDisable(false);
@@ -71,51 +76,55 @@ public class LoginController implements Initializable{
             return;
         }
         //Validating with database
-        //TODO bring these to service
         if (rolesBox.getValue() == "User"){
             try {
-                Connector.open();
-    
-                PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT user_password FROM user_account WHERE user_id = ?");
-                statement.setString(1, userIdInput);
-                ResultSet rs = statement.executeQuery();
-    
-                if(!rs.isBeforeFirst()){
+                if(!LoginService.isAccountExisted(userIdInput)){
                     userIdError.setText("User does not exist. Please try again.");
                     userIdError.requestFocus();
-                } 
-                else{
-                    //should be only one row
-                    while (rs.next()) {
-                        //#UNIT TEST 
-                        String retrievedPass = rs.getString("user_password");
-                        
-                        if (retrievedPass.equals(Utils.getEncryted(userIdInput+userPassInput))){
-                            
-                            //System.out.println("You're in!");
-                            MyScene.switchScene(event, "scene/primary");
-                        }
-                        else {
-                            passwordError.setText("That was the wrong password. Please try again.");
-                            txt_Password.requestFocus();
-                        }          
-                    }
+                } else
+                if(LoginService.isPasswordCorrect(userIdInput, userPassInput)){
+                    MyScene.switchScene(event, "scene/user/UserInterface");
+                }else{
+                    passwordError.setText("That was the wrong password. Please try again.");
+                    txt_Password.setText("");
+                    txt_Password.requestFocus();
                 }
-            }catch(SQLException sx){
-                Utils.getAlertBox("Cannot connect to database!", AlertType.ERROR);
+            }catch(SQLException se){
+                Utils.getAlertBox("Cannot connect to database!", AlertType.ERROR).showAndWait();
+                System.out.println(se.getMessage());
             } 
             catch (Exception e) {
-                e.printStackTrace();
+                Utils.getAlertBox("Opps Something went wrong!", AlertType.ERROR).showAndWait();
             }
             finally{
-                Connector.close();
                 loginButton.setDisable(false);
                 rolesBox.setDisable(false);
             }
         }
         else
         {
-            // Librarian
+            try {
+                if(!LoginService.isAdminAccountExisted(userIdInput)){
+                    userIdError.setText("User does not exist. Please try again.");
+                    userIdError.requestFocus();
+                } else
+                if(LoginService.isAdminPasswordCorrect(userIdInput, userPassInput)){
+                    MyScene.switchScene(event, "scene/admin/AdminInterface");
+                }else{
+                    passwordError.setText("That was the wrong password. Please try again.");
+                    txt_Password.requestFocus();
+                }
+            }catch(SQLException se){
+                System.out.println(se.getMessage());
+                Utils.getAlertBox("Cannot connect to database!", AlertType.ERROR).showAndWait();
+            } 
+            catch (Exception e) {
+                Utils.getAlertBox("Opps something went wrong!", AlertType.ERROR).showAndWait();
+            }
+            finally{
+                loginButton.setDisable(false);
+                rolesBox.setDisable(false);
+            }
         }
         
     }

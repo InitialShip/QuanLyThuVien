@@ -5,15 +5,17 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import main.entity.Book;
 import main.entity.Category;
@@ -21,13 +23,12 @@ import main.manager.BookManager;
 import main.manager.CategoryManager;
 import main.myListener.MyOnClickListener;
 import main.utility.MyScene;
+import main.utility.Utils;
 
 public class BookViewController implements Initializable{
-    //TODO change filter list like admin
     @FXML private VBox layout;
     @FXML private AnchorPane review;
     @FXML private Tab tabRequest;
-    @FXML private Pane searchButton; 
     @FXML private TextField searchText;
     @FXML private ComboBox<String> searchComboBox;
     @FXML private ComboBox<Category> filterComboBox;
@@ -36,7 +37,7 @@ public class BookViewController implements Initializable{
 
 
     private MyOnClickListener myListener;
-    private static List<Book> displayList;
+    private static ObservableList<Book> displayList;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -47,29 +48,27 @@ public class BookViewController implements Initializable{
             }
         };
         initializeComboBoxes();
+        displayList = FXCollections.observableArrayList(applyFilter(BookManager.getBooks()));
         try {
-            displayList = applyFilter(BookManager.getBooks());
             displayBook();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Utils.getAlertBox("Can not display book", AlertType.ERROR).showAndWait();
+            Platform.exit();
         }
-            
-    }
-    @FXML
-    private void onSearch() throws IOException{
-        searchButton.setDisable(true);
-        layout.getChildren().clear();
-
-        displayList = searchBooks(BookManager.getBooks());
-
-        displayBook();
-        searchButton.setDisable(false);
+        searchText.textProperty().addListener((observal,oldVal,newVal)->{
+            displayList = FXCollections.observableArrayList(searchBooks(BookManager.getBooks()));
+            try {
+                displayBook();
+            } catch (IOException e1) {
+                Utils.getAlertBox("Can not display book", AlertType.ERROR).showAndWait();
+                Platform.exit();
+            }
+        });
     }
     @FXML
     private void comboboxSelect() throws IOException{
         layout.getChildren().clear();
-        displayList = applyFilter(BookManager.getBooks());
+        displayList = FXCollections.observableArrayList(applyFilter(BookManager.getBooks()));
 
         displayBook();
     }
@@ -80,13 +79,14 @@ public class BookViewController implements Initializable{
         BookReviewController bookReviewController = fxmlLoader.getController();
         bookReviewController.setData(book);
         review.getChildren().add(bookReview);
-        tabRequest.setText("Yes");
     }
     private void displayBook() throws IOException{
+
         for (Book book : displayList) {
             FXMLLoader fxmlLoader = MyScene.getFXML("scene/user/BookCard");
             AnchorPane bookCard = fxmlLoader.load();
             BookCardController bookCardController = fxmlLoader.getController();
+            
             bookCardController.setData(book, myListener);
             layout.getChildren().add(bookCard);
         }
@@ -109,6 +109,7 @@ public class BookViewController implements Initializable{
     }
 
     private List<Book> searchBooks(List<Book> books){
+        layout.getChildren().clear();
         if(searchText.getText().isBlank())
             return applyFilter(books);
         

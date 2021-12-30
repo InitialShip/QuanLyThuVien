@@ -86,12 +86,24 @@ public class BookModifierController implements Initializable{
         txt_Publisher.textProperty().addListener(new MyTextFieldChangeListener(txt_Publisher, 50, ""));
         txt_Year.textProperty().addListener(new MyTextFieldChangeListener(txt_Year, 4, "([0-9]*\\.?)"));
         txt_Place.textProperty().addListener(new MyTextFieldChangeListener(txt_Place, 10, "([a-zA-Z0-9]*\\.?)"));
+        
+        // txt_Title.focusedProperty().addListener(new MyTextFieldFocusListener(new MyActionListener() {
+        //     @Override
+        //     public void performAction() {
+        //         if(txt_Title.getText().isBlank())
+        //             Utils.getAlertBox("Please enter a title!", AlertType.WARNING).showAndWait();   
+        //     }
+        // }));
     }
     /*
-    * Event
+    * Button Event
     */
     @FXML
     private void onUpdateClick() throws SQLException, FileNotFoundException{
+        if(txt_Title.getText().isBlank()){
+            Utils.getAlertBox("Please enter a title!", AlertType.WARNING).showAndWait();
+            return;
+        }
         btn_Update.setDisable(true);
         Optional<ButtonType> option = Utils.getAlertBox("Do you want to save changes ?", AlertType.CONFIRMATION).showAndWait();
         if (option.get() == ButtonType.OK){
@@ -115,6 +127,7 @@ public class BookModifierController implements Initializable{
                 if(BookManager.updateBook(newBook)){
                     //call parent stage to reload
                     myListener.update();
+                    selectedBook = BookManager.getBook(lb_bookId.getText());
                     Utils.getAlertBox("Update successful!", AlertType.INFORMATION).showAndWait();
                 }else{
                     Utils.getAlertBox("Update failed!", AlertType.ERROR).showAndWait();
@@ -135,6 +148,7 @@ public class BookModifierController implements Initializable{
         }
         btn_Update.setDisable(false);
     }
+    
     @FXML
     private void onResetInfoClick(){
         lb_bookId.setText(selectedBook.getId());

@@ -17,13 +17,8 @@ public class AppUserService {
         statement.setString(1, id);
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
-            AppUser user = new AppUser(rs.getString("id"), 
-                rs.getString("first_name"), 
-                rs.getString("last_name"), 
-                rs.getString("sex"), 
-                rs.getDate("date_of_birth"), 
-                rs.getString("ocupation"));
-            AppUserManager.addUser(user);
+            AppUser user = new AppUser();
+            AppUserManager.setUser(user);
         }
         statement.close();
         Connector.close();

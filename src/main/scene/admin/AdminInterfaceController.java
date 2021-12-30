@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -20,6 +21,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -29,6 +31,7 @@ import main.manager.BookManager;
 import main.manager.CategoryManager;
 import main.myListener.MyOnUpdateListener;
 import main.utility.MyScene;
+import main.utility.Utils;
 
 public class AdminInterfaceController implements Initializable {
     @FXML private TableView<Book> tableView;
@@ -47,8 +50,7 @@ public class AdminInterfaceController implements Initializable {
     @FXML private TextField txt_Search;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        cbox_SearchOption.setItems(FXCollections.observableArrayList("ID","Title", "Author", "Year"));
-        cbox_SearchOption.getSelectionModel().selectFirst();
+        
         try {
             BookManager.getInstance();
             BookManager.loadData();
@@ -56,10 +58,13 @@ public class AdminInterfaceController implements Initializable {
             CategoryManager.loadData();
 
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Utils.getAlertBox("Can not load library data!", AlertType.ERROR).showAndWait();
+            Platform.exit();
         }
-        displayList = FXCollections.observableList(BookManager.getBooks());
+        cbox_SearchOption.setItems(FXCollections.observableArrayList("ID","Title", "Author", "Year"));
+        cbox_SearchOption.getSelectionModel().selectFirst();
+
+        displayList = FXCollections.observableArrayList(BookManager.getAllBooks());
         
         idColumn.setCellValueFactory(new PropertyValueFactory<Book,String>("id"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<Book,String>("title"));
@@ -82,21 +87,31 @@ public class AdminInterfaceController implements Initializable {
                 return null;
             }
         });
-
-        loadTable();
-
-        //Initialize filter
-        FilteredList<Book> filteredList = new FilteredList<>(displayList, b -> true);
+        //Initialize filter for table view
+        initializeFilter(displayList);
+        
+        myListener = new MyOnUpdateListener() {
+            @Override
+            public void update() throws SQLException {
+                reloadData();      
+            }
+        };
+    }
+    private void reloadData() throws SQLException{
+        BookManager.reloadData();
+        displayList = FXCollections.observableArrayList(BookManager.getAllBooks());
+        initializeFilter(displayList);
+    }
+    private void initializeFilter(ObservableList<Book> list){
+        FilteredList<Book> filteredList = new FilteredList<>(list, b -> true);
         txt_Search.textProperty().addListener((Observable, oldVal, newVal) -> {
             filteredList.setPredicate(book ->{
-                if( newVal == null || newVal.isBlank() || newVal.isEmpty())
+                if(newVal == null || newVal.isBlank() || newVal.isEmpty())
                     return true;
-                
                 String searchKeyword = newVal.toLowerCase();
-                
                 switch (cbox_SearchOption.getSelectionModel().getSelectedItem()) {
                     case "ID":
-                        if(book.getId().toLowerCase().contains(searchKeyword))
+                        if (book.getId().toLowerCase().contains(searchKeyword))
                             return true;
                         break;
                     case "Title":
@@ -114,30 +129,12 @@ public class AdminInterfaceController implements Initializable {
                     default:
                         break;
                 }
-                
                 return false;
             });
         });
-        SortedList<Book> sortedList = new SortedList<> (filteredList);
+        SortedList<Book> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(tableView.comparatorProperty());
-        tableView.setItems(filteredList);
-        
-        myListener = new MyOnUpdateListener() {
-            @Override
-            public void update() throws SQLException {
-                reloadData();      
-            }
-        };
-
-    }
-    //
-    private void loadTable(){
-        tableView.setItems(displayList);
-    }
-    private void reloadData() throws SQLException{
-        BookManager.reloadData();
-        displayList = FXCollections.observableList(BookManager.getBooks());
-        loadTable();
+        tableView.setItems(sortedList);
     }
     /*
     * Event
@@ -175,7 +172,7 @@ public class AdminInterfaceController implements Initializable {
             {
                 bookAdder = new Stage();
                 bookAdder.setResizable(false);
-                bookAdder.setTitle("Book Modifier");
+                bookAdder.setTitle("Book Adder");
                 adderController = (AddBookController)MyScene.openChildScene(bookAdder,"scene/admin/AddBook");
                 adderController.setListener(myListener);
                 bookAdder.initOwner((Stage)((Node)event.getSource()).getScene().getWindow());
