@@ -3,6 +3,7 @@ package main.manager;
 import java.sql.SQLException;
 
 import main.entity.AppUser;
+import main.entity.Book;
 import main.service.AppUserService;
 
 public class AppUserManager {
@@ -18,18 +19,25 @@ public class AppUserManager {
         }
         return instance;
     }
-    //getter
-    public AppUser getUser(){
+    //Getter setter
+    public static AppUser getUser(){
         return user;
     }
-    public static void addUser(AppUser user){
+    public static void setUser(AppUser user){
         AppUserManager.user = user;
     }
-    public void loadData(String id) throws SQLException{
+    //Methods
+    public static void order(Book book){
+        if(user.getOrder().size() < 5)
+            if(!user.getOrder().contains(book))
+                user.addOrder(book);
+            else
+                user.removeOrder(book);
+    }
+    public static void loadData(String id) throws SQLException{
         AppUserService.getData(id);
     }
-    public void reset(){
-        user = null;
-        instance = null;
+    public static void reset(){
+        user = new AppUser();
     }
 }

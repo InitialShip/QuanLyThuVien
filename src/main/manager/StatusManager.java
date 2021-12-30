@@ -6,5 +6,5 @@ import main.entity.Status;
 
 public class StatusManager {
     private static List<Status> statusList;
-
+    
 }

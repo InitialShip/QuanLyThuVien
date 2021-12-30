@@ -1,6 +1,8 @@
 package main.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AppUser {
     private String id;
@@ -9,16 +11,17 @@ public class AppUser {
     private String sex;
     private Date dateOfBirth;
     private String occupation;
+    private List<Book> order;
 
+    //TODO I should set every thing at default
     public AppUser(){
+        order = new ArrayList<>();
     }
-    public AppUser(String id, String firstName, String lastName, String sex, Date dateOfBirth, String occupation) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.sex = sex;
-        this.dateOfBirth = dateOfBirth;
-        this.occupation = occupation;
+    public List<Book> getOrder() {
+        return order;
+    }
+    public void setOrder(List<Book> order) {
+        this.order = order;
     }
     // getter setter
     public String getId() {
@@ -58,4 +61,10 @@ public class AppUser {
         this.occupation = occupation;
     }
     //method
+    public void addOrder(Book book){
+        this.order.add(book);
+    }
+    public void removeOrder(Book book){
+        this.order.remove(book);
+    }
 }

@@ -22,13 +22,15 @@ public class BookManager {
         }
         return instance;
     }
-    //getter
-    public static List<Book> getBooks(){
-        return bookList;
-    }
     /*
     *   METHODS
     */
+    public static List<Book> getAllBooks(){
+        return bookList;
+    }
+    public static List<Book> getBooks(){
+        return bookList.stream().filter(b -> b.isDisabled() == false).toList();
+    }
     public static void reloadData() throws SQLException{
         bookList.clear();
         loadData();
@@ -37,7 +39,7 @@ public class BookManager {
         bookList.add(book);
     }
     public static Book getBook(String id){
-        return bookList.stream().filter(b -> b.getId() == id).findFirst().orElse(null);
+        return bookList.stream().filter(b -> b.getId().equals(id)).findFirst().orElse(null);
     }
     public static void loadData() throws SQLException{
         BookService.getData();

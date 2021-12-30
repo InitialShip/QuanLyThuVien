@@ -32,11 +32,9 @@ import main.entity.Book;
 import main.entity.Category;
 import main.manager.BookManager;
 import main.manager.CategoryManager;
-import main.myListener.MyActionListener;
 import main.myListener.MyOnUpdateListener;
 import main.myListener.MyTextAreaChangeListener;
 import main.myListener.MyTextFieldChangeListener;
-import main.myListener.MyTextFieldFocusListener;
 import main.utility.MyImage;
 import main.utility.Utils;
 
@@ -70,6 +68,9 @@ public class AddBookController implements Initializable{
         cbox_Category.getSelectionModel().selectFirst();
         dp_DateAdded.setValue(LocalDate.now());
         txt_Year.setText(Integer.toString(LocalDate.now().getYear()));
+         /*
+        * Event
+        */
         //text field listener      
         txt_Id.textProperty().addListener(new MyTextFieldChangeListener(txt_Id, 10, "([a-zA-Z0-9]*\\.?)"));
         txt_Title.textProperty().addListener(new MyTextFieldChangeListener(txt_Title, 100, ""));
@@ -78,33 +79,57 @@ public class AddBookController implements Initializable{
         txt_Publisher.textProperty().addListener(new MyTextFieldChangeListener(txt_Publisher, 50, ""));
         txt_Year.textProperty().addListener(new MyTextFieldChangeListener(txt_Year, 4, "([0-9]*\\.?)"));
         txt_Place.textProperty().addListener(new MyTextFieldChangeListener(txt_Place, 10, "([a-zA-Z0-9\s]*\\.?)"));
-        txt_Id.focusedProperty().addListener(new MyTextFieldFocusListener(new MyActionListener() {
-            @Override
-            public void performAction() {
-                try {
-                    if(!txt_Id.getText().isBlank())
-                    idValidation();
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    Utils.getAlertBox("Some thing went wrong!",AlertType.ERROR).showAndWait();      
-                }
-            }
-        }));
+    //     //active validating value
+    //     txt_Id.focusedProperty().addListener(new MyTextFieldFocusListener(new MyActionListener() {
+    //         @Override
+    //         public void performAction() {
+    //             try {
+    //                 idChecker();
+    //             } catch (Exception e) {
+    //                 System.out.println(e.getMessage());
+    //                 Utils.getAlertBox("Some thing went wrong!",AlertType.ERROR).showAndWait();      
+    //             }
+    //         }
+    //     }));
+    //     txt_Title.focusedProperty().addListener(new MyTextFieldFocusListener(new MyActionListener() {
+    //         @Override
+    //         public void performAction() {
+    //             titleValidation();
+    //         }
+    //     }));
+    // }
+    // private void idChecker() throws SQLException{
+    //     if(txt_Id.getText().isBlank() || BookManager.isIdExistd(txt_Id.getText())){
+    //         isValid = false;
+    //         txt_Id.getStyleClass().add("error");
+    //     }else{
+    //         isValid = true;
+    //         txt_Id.getStyleClass().remove("error");
+    //     }
+    // }
+    // private void titleValidation(){
+    //     if (txt_Title.getText().isBlank())
+    //         txt_Title.getStyleClass().add("error");
+    //     else
+    //         txt_Title.getStyleClass().remove("error");
     }
-    /*
-    * Event
-    */
-    private void idValidation() throws SQLException{
-        isIdValid = !BookManager.isIdExistd(txt_Id.getText());
-        if(!isIdValid)
-        Utils.getAlertBox("Duplicated ID!",AlertType.WARNING).showAndWait(); 
-    }
-    private Boolean isIdValid = false;
     private String fileStream;
     @FXML
-    private void onConfirmClick(){
-        if(!isIdValid || txt_Id.getText().isBlank() ){
-            Utils.getAlertBox("Duplicated or Blank ID",AlertType.WARNING).showAndWait();
+    private void onConfirmClick() throws SQLException{
+        try {
+            if(txt_Id.getText().isBlank() || BookManager.isIdExistd(txt_Id.getText())){
+                Utils.getAlertBox("Blank or Duplicated ID!",AlertType.WARNING).showAndWait();
+                return;
+            }
+        } catch (SQLException se) {
+            Utils.getAlertBox("Can not connect to database!",AlertType.ERROR).showAndWait();
+            return;
+        }catch (Exception e){
+            Utils.getAlertBox("Opps something went wrong!", AlertType.ERROR).showAndWait();
+            return;
+        }
+        if(txt_Title.getText().isBlank()){
+            Utils.getAlertBox("Please enter a title", AlertType.WARNING).showAndWait();
             return;
         }
         btn_Confirm.setDisable(true);
@@ -146,7 +171,6 @@ public class AddBookController implements Initializable{
             }catch (Exception e) {
                 Utils.getAlertBox("Opps something went wrong!", AlertType.ERROR).showAndWait();
             }finally{
-                isIdValid = false;
                 btn_Confirm.setDisable(false);
             }
         }

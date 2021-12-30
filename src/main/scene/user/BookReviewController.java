@@ -31,7 +31,8 @@ public class BookReviewController {
         category.setText("Category: " + CategoryManager.getCategoryName(book.getCategoryId()));
         publisher.setText("Publisher: " + book.getPublisher());
         year.setText("Year: " + book.getYear());
-        dateAdded.setText("Date Added: ");
-        place.setText("Location: ");
+        dateAdded.setText("Date Added: " + book.getDateAdded());
+        place.setText("Place: " + book.getPlace());
+        imageView.setImage(book.getImage());
     }
 }
