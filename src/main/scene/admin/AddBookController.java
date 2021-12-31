@@ -79,39 +79,6 @@ public class AddBookController implements Initializable{
         txt_Publisher.textProperty().addListener(new MyTextFieldChangeListener(txt_Publisher, 50, ""));
         txt_Year.textProperty().addListener(new MyTextFieldChangeListener(txt_Year, 4, "([0-9]*\\.?)"));
         txt_Place.textProperty().addListener(new MyTextFieldChangeListener(txt_Place, 10, "([a-zA-Z0-9\s]*\\.?)"));
-    //     //active validating value
-    //     txt_Id.focusedProperty().addListener(new MyTextFieldFocusListener(new MyActionListener() {
-    //         @Override
-    //         public void performAction() {
-    //             try {
-    //                 idChecker();
-    //             } catch (Exception e) {
-    //                 System.out.println(e.getMessage());
-    //                 Utils.getAlertBox("Some thing went wrong!",AlertType.ERROR).showAndWait();      
-    //             }
-    //         }
-    //     }));
-    //     txt_Title.focusedProperty().addListener(new MyTextFieldFocusListener(new MyActionListener() {
-    //         @Override
-    //         public void performAction() {
-    //             titleValidation();
-    //         }
-    //     }));
-    // }
-    // private void idChecker() throws SQLException{
-    //     if(txt_Id.getText().isBlank() || BookManager.isIdExistd(txt_Id.getText())){
-    //         isValid = false;
-    //         txt_Id.getStyleClass().add("error");
-    //     }else{
-    //         isValid = true;
-    //         txt_Id.getStyleClass().remove("error");
-    //     }
-    // }
-    // private void titleValidation(){
-    //     if (txt_Title.getText().isBlank())
-    //         txt_Title.getStyleClass().add("error");
-    //     else
-    //         txt_Title.getStyleClass().remove("error");
     }
     private String fileStream;
     @FXML
@@ -186,6 +153,8 @@ public class AddBookController implements Initializable{
         txt_Year.setText(Integer.toString(LocalDate.now().getYear()));
         cbox_Category.getSelectionModel().selectFirst();
         txt_Place.setText("");
+        dp_DateAdded.setValue(LocalDate.now());
+        ck_Disable.selectedProperty().setValue(false);
     }
     @FXML
     private void onChoosePicClick(ActionEvent event){
