@@ -11,7 +11,12 @@ import java.util.regex.Pattern;
 import javafx.scene.control.Alert;
 
 public class Utils {
-    //#UNIT TEST
+    public static boolean isUserIdValid(String input){
+        return Utils.isMatched(input, "^(?=[A-Za-z0-9])(?=\\S+$).{8,20}$");
+    }
+    public static boolean isUserPasswordValid(String input){
+        return Utils.isMatched(input, "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$");
+    }
     /*
     * Is a string follow a set pattern? 
     */

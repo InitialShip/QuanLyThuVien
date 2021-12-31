@@ -87,13 +87,6 @@ public class BookModifierController implements Initializable{
         txt_Year.textProperty().addListener(new MyTextFieldChangeListener(txt_Year, 4, "([0-9]*\\.?)"));
         txt_Place.textProperty().addListener(new MyTextFieldChangeListener(txt_Place, 10, "([a-zA-Z0-9]*\\.?)"));
         
-        // txt_Title.focusedProperty().addListener(new MyTextFieldFocusListener(new MyActionListener() {
-        //     @Override
-        //     public void performAction() {
-        //         if(txt_Title.getText().isBlank())
-        //             Utils.getAlertBox("Please enter a title!", AlertType.WARNING).showAndWait();   
-        //     }
-        // }));
     }
     /*
     * Button Event
@@ -159,6 +152,8 @@ public class BookModifierController implements Initializable{
         txt_Year.setText(Integer.toString(selectedBook.getYear()));
         cbox_Category.getSelectionModel().select(CategoryManager.getCategory(selectedBook.getCategoryId()));
         txt_Place.setText(selectedBook.getPlace());
+        dp_DateAdded.setValue(selectedBook.getDateAdded().toLocalDate());
+        ck_Disable.selectedProperty().setValue(selectedBook.isDisabled());
     }
     private String fileStream;
     @FXML

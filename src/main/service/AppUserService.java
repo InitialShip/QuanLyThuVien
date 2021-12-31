@@ -18,6 +18,12 @@ public class AppUserService {
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
             AppUser user = new AppUser();
+            user.setId(rs.getString("id"));
+            user.setFirstName(rs.getString("first_name"));
+            user.setLastName(rs.getString("last_name"));
+            user.setSex(rs.getString("sex"));
+            user.setDateOfBirth(rs.getDate("date_of_birth"));
+            user.setOccupation(rs.getString("ocupation"));
             AppUserManager.setUser(user);
         }
         statement.close();

@@ -60,14 +60,14 @@ public class LoginController implements Initializable{
         userPassInput = txt_Password.getText();
         
         //Validating before database
-        if(!isUserIdValid(userIdInput)){
+        if(!Utils.isUserIdValid(userIdInput)){
             userIdError.setText("Please Check the spelling and try again.");
             txt_UserId.requestFocus();
             loginButton.setDisable(false);
             rolesBox.setDisable(false);
             return;
         }
-        if(!isUserPasswordValid(userPassInput)){
+        if(!Utils.isUserPasswordValid(userPassInput)){
             passwordError.setText("That was the wrong password. Please try again.");
             txt_Password.setText("");
             txt_Password.requestFocus();
@@ -136,10 +136,5 @@ public class LoginController implements Initializable{
     /*
     * Validating user Id and user password from inputs
     */
-    private boolean isUserIdValid(String input){
-        return Utils.isMatched(input, "^(?=[A-Za-z0-9])(?=\\S+$).{8,20}$");
-    }
-    private boolean isUserPasswordValid(String input){
-        return Utils.isMatched(input, "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,20}$");
-    }
+    
 }
