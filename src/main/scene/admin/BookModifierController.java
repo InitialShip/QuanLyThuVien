@@ -85,7 +85,7 @@ public class BookModifierController implements Initializable{
         txt_Description.textProperty().addListener(new MyTextAreaChangeListener(txt_Description, 500, ""));
         txt_Publisher.textProperty().addListener(new MyTextFieldChangeListener(txt_Publisher, 50, ""));
         txt_Year.textProperty().addListener(new MyTextFieldChangeListener(txt_Year, 4, "([0-9]*\\.?)"));
-        txt_Place.textProperty().addListener(new MyTextFieldChangeListener(txt_Place, 10, "([a-zA-Z0-9]*\\.?)"));
+        txt_Place.textProperty().addListener(new MyTextFieldChangeListener(txt_Place, 10, "([a-zA-Z0-9\s]*\\.?)"));
         
     }
     /*
