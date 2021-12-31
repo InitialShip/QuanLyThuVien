@@ -115,11 +115,11 @@ public class BookViewController implements Initializable{
         
         switch (searchComboBox.getSelectionModel().getSelectedItem()) {
             case "Title":
-                return BookManager.findByTitle(searchText.getText(), applyFilter(books));
+                return BookManager.findByTitle(searchText.getText().trim(), applyFilter(books));
             case "Authors":
-                return BookManager.findByAuthor(searchText.getText(), applyFilter(books));
+                return BookManager.findByAuthor(searchText.getText().trim(), applyFilter(books));
             case "Year":
-                return BookManager.findByYear(searchText.getText(), applyFilter(books));
+                return BookManager.findByYear(searchText.getText().trim(), applyFilter(books));
             default:    
                 break;
         }

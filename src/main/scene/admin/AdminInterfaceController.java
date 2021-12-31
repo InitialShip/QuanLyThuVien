@@ -108,7 +108,7 @@ public class AdminInterfaceController implements Initializable {
             filteredList.setPredicate(book ->{
                 if(newVal == null || newVal.isBlank() || newVal.isEmpty())
                     return true;
-                String searchKeyword = newVal.toLowerCase();
+                String searchKeyword = newVal.toLowerCase().trim();
                 switch (cbox_SearchOption.getSelectionModel().getSelectedItem()) {
                     case "ID":
                         if (book.getId().toLowerCase().contains(searchKeyword))

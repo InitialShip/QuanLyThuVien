@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import main.service.OrderService;
 import main.utility.MyScene;
 
 public class App extends Application{
@@ -23,6 +24,8 @@ public class App extends Application{
         stage.show();
     }
     public static void main(String[] args) throws Exception {
+        //OrderService.createOrder("CS1960008");
+        //System.out.println(OrderService.getLatestOrderId("CS1960008"));
         launch();
     }
    
