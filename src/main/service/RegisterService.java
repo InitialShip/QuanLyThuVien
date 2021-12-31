@@ -1,9 +1,11 @@
 package main.service;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import main.mySqlConnector.Connector;
 import main.utility.Utils;
@@ -35,6 +37,18 @@ public class RegisterService {
         if(statement.executeUpdate() > 0)
             result = true;
         Connector.getCnt().commit();
+        statement.close();
+        Connector.close();
+        return result;
+    }
+    public static Boolean createIdCard(String id) throws SQLException{
+        Boolean result = false;
+        Connector.open();
+        PreparedStatement statement = Connector.getCnt().prepareStatement("INSERT INTO library_db.id_card(user_id,expire_date)VALUES(?,?)");
+        statement.setString(1, id);
+        statement.setDate(2, Date.valueOf(LocalDate.now().plusMonths(5)));
+        if(statement.executeUpdate() > 0)
+            result = true;
         statement.close();
         Connector.close();
         return result;
