@@ -168,8 +168,7 @@ public class AdminInterfaceController implements Initializable {
     @FXML
     private void onBtnAddBookSelect(ActionEvent event) throws IOException{
         try {
-            if(bookAdder == null)
-            {
+            if(bookAdder == null){
                 bookAdder = new Stage();
                 bookAdder.setResizable(false);
                 bookAdder.setTitle("Book Adder");

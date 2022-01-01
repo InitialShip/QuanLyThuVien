@@ -7,6 +7,7 @@ import main.entity.Book;
 import main.manager.CategoryManager;
 
 public class BookReviewController {
+    @FXML private Label id;
     @FXML private Label title;
     @FXML private Label authors;
     @FXML private Label description;
@@ -25,6 +26,7 @@ public class BookReviewController {
     }
 
     private void loadData(){
+        id.setText("Book ID:"+book.getId());
         title.setText(book.getTitle());
         authors.setText("Author: " + book.getAuthor());
         description.setText("Description: "+book.getDescription());

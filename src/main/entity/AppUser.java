@@ -1,7 +1,7 @@
 package main.entity;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class AppUser {
@@ -12,10 +12,55 @@ public class AppUser {
     private Date dateOfBirth;
     private String occupation;
     private List<Book> order;
-
-    //TODO I should set every thing at default
+    private Boolean isBorrowing;
+    private String email;
+    private String phoneNumber;
+    private Date libCardVaildUpTo;
+    private Boolean canOrder;
+    private List<Order> orderHistory;
     public AppUser(){
         order = new ArrayList<>();
+        orderHistory = new ArrayList<>();
+    }
+    public List<Order> getOrderHistory() {
+        return orderHistory;
+    }
+    public void setOrderHistory(List<Order> orderHistory) {
+        this.orderHistory = orderHistory;
+    }
+    public Boolean getCanOrder() {
+        return canOrder;
+    }
+    public void setCanOrder(Boolean canOrder) {
+        this.canOrder = canOrder;
+    }
+    public Date getLibCardVaildUpTo() {
+        return libCardVaildUpTo;
+    }
+    public void setLibCardVaildUpTo(Date libCardVaildUpTo) {
+        this.libCardVaildUpTo = libCardVaildUpTo;
+    }
+    public Boolean getIsBorrowing() {
+        return isBorrowing;
+    }
+    public void setIsBorrowing(Boolean isBorrowing) {
+        this.isBorrowing = isBorrowing;
+    }
+    public String getEmail() {
+        if(email == null)
+            return "";
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getPhoneNumber() {
+        if(phoneNumber == null)
+            return "";
+        return phoneNumber;
+    }
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
     public List<Book> getOrder() {
         return order;
@@ -66,5 +111,8 @@ public class AppUser {
     }
     public void removeOrder(Book book){
         this.order.remove(book);
+    }
+    public void addOrderHistory(Order order){
+        this.orderHistory.add(order);
     }
 }

@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import main.manager.AppUserManager;
 import main.mySqlConnector.Connector;
 import main.service.LoginService;
 import main.utility.MyScene;
@@ -83,6 +84,8 @@ public class LoginController implements Initializable{
                     userIdError.requestFocus();
                 } else
                 if(LoginService.isPasswordCorrect(userIdInput, userPassInput)){
+                    AppUserManager.getInstance();
+                    AppUserManager.setId(userIdInput);
                     MyScene.switchScene(event, "scene/user/UserInterface");
                 }else{
                     passwordError.setText("That was the wrong password. Please try again.");

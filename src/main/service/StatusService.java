@@ -14,7 +14,7 @@ public class StatusService {
 
         Connector.open();
         Statement statement = Connector.getCnt().createStatement();
-        ResultSet rs = statement.executeQuery("");
+        ResultSet rs = statement.executeQuery("SELECT * FROM library_db.status");
         while(rs.next()){
             Status status = new Status();
             status.setId(rs.getInt("id"));

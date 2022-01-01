@@ -76,6 +76,7 @@ public class RegisterController implements Initializable{
             }else
             if(!RegisterService.isAccountExisted(userIdInput)){
                 if(RegisterService.register(userIdInput, userPassInput)){
+                    RegisterService.createIdCard(userIdInput);
                     Utils.getAlertBox("Register Successful!", AlertType.INFORMATION).showAndWait();
                 }else{
                     Utils.getAlertBox("Register failed!", AlertType.ERROR).showAndWait();

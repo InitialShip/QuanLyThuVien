@@ -7,7 +7,6 @@ import javafx.beans.value.ObservableValue;
 /**
  * perform an action after leaving text field
  */
-//TODO try this
 public class MyTextFieldFocusListener implements ChangeListener<Boolean>{
     private final MyActionListener action;
     public MyTextFieldFocusListener(MyActionListener newAction) {

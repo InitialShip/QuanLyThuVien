@@ -7,11 +7,16 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import main.manager.AppUserManager;
 import main.manager.BookManager;
 import main.manager.CategoryManager;
+import main.manager.StatusManager;
 import main.utility.MyScene;
 
 public class UserInterfaceController implements Initializable{
@@ -22,21 +27,23 @@ public class UserInterfaceController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            AppUserManager.getInstance();
-            //initialize library data
+            StatusManager.getInstance();
+            StatusManager.loadData();
             CategoryManager.getInstance();
             CategoryManager.loadData();
             BookManager.getInstance();
             BookManager.loadData();
-        
+            //user Data
+            AppUserManager.getInstance();
+            AppUserManager.loadData(AppUserManager.getUser().getId());
+            AppUserManager.getRecentOrder();
+            AppUserManager.getOrderHistory();
             toBookView();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
-        
     }
     @FXML 
     private void toBookView() throws IOException{
@@ -45,12 +52,18 @@ public class UserInterfaceController implements Initializable{
         pane.getChildren().clear();
         pane.getChildren().add(MyScene.loadFXML("scene/user/BookView"));
     }
+    private static Stage libCardStage;
     @FXML
-    public void toIdCard() throws IOException{
-        setUnselected();
-        idCard.getStyleClass().add("selected");
-        pane.getChildren().clear();
-        pane.getChildren().add(MyScene.loadFXML("scene/user/IDCard"));
+    public void toIdCard(MouseEvent event) throws IOException{
+        if(libCardStage == null){
+            libCardStage = new Stage();
+            libCardStage.setResizable(false);
+            libCardStage.setTitle("Library Card");
+            libCardStage.setScene(new Scene(MyScene.loadFXML("scene/user/LibCard")));
+            libCardStage.initOwner((Stage)((Node)event.getSource()).getScene().getWindow());
+        }
+        libCardStage.show();
+        libCardStage.toFront(); 
     }
     private void setUnselected(){
         bookView.getStyleClass().clear();

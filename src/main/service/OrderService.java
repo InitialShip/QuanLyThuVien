@@ -26,25 +26,21 @@ public class OrderService {
             order.setOrderDate(rs.getDate("order_date"));
             order.setExpireDate(rs.getDate("expire_date"));
             order.setStatusId(rs.getInt("status_id"));
-            order.setFine(rs.getDouble("fine"));
+            order.setFine(rs.getInt("fine"));
 
             OrderManager.addOrder(order);
         }
         statement.close();
         Connector.close();
     }
-    public static void getOrderDetail(){
-        //TODO
-    }
     public static Boolean createOrder(String userId) throws SQLException{
         Boolean result = false;
         Connector.open();
-        PreparedStatement statement = Connector.getCnt().prepareStatement("INSERT INTO library_db.order(user_id,order_date,expire_date,status_id,fine)VALUES(?,?,?,?,?)");
+        PreparedStatement statement = Connector.getCnt().prepareStatement("INSERT INTO library_db.order(user_id,order_date,expire_date,order_status_id)VALUES(?,?,?,?)");
         statement.setString(1, userId);
         statement.setDate(2, Date.valueOf(LocalDate.now()));
         statement.setDate(3, Date.valueOf(LocalDate.now().plusDays(30)));
         statement.setInt(4, 1);
-        statement.setDouble(5, 0);
 
         if(statement.executeUpdate() > 0)
             result = true;
@@ -55,11 +51,11 @@ public class OrderService {
     public static int getLatestOrderId(String userId) throws SQLException{
         int result = -1;
         Connector.open();
-        PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT order_id FROM library_db.order WHERE user_id = ? AND status_id = 1");
+        PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT id FROM library_db.order WHERE user_id = ? AND order_status_id = 1");
         statement.setString(1, userId);
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
-            result = rs.getInt("order_id");
+            result = rs.getInt("id");
         }
         statement.close();
         Connector.close();
@@ -87,4 +83,10 @@ public class OrderService {
         Connector.close();
         return result;
     }
+    public static void getLastestUserOrder() throws SQLException{
+        Connector.open();
+        String sql = "SELECT * FROM library.order WHERE status_id IN (1,2)";
+        Connector.close();
+    }
+   
 }
