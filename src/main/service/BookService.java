@@ -134,4 +134,17 @@ public class BookService {
         Connector.close();
         return result;
     }
+
+    public static int getCount() throws SQLException{
+        int count = 0;
+        Connector.open();
+        Statement statement = Connector.getCnt().createStatement();
+        ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM book");
+        while(rs.next()){
+            count = rs.getInt(1);
+        }
+        statement.close();
+        Connector.close();
+        return count;
+    }
 }

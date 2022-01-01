@@ -48,7 +48,6 @@ public class AddBookController implements Initializable{
     @FXML private ComboBox<Category> cbox_Category;
     @FXML private ImageView img_BookCover;
     @FXML private TextField txt_Place;
-    //TODO if larger than today
     @FXML private DatePicker dp_DateAdded;
 
     @FXML private CheckBox ck_Disable;

@@ -1,29 +1,35 @@
 package main.entity;
 
 import java.sql.Date;
-import java.util.List;
 
 public class Order {
-    private int id;
+    private int orderId;
     private String userId;
     private Date orderDate;
     private Date expireDate;
     private int statusId;
-    private double fine;
-    private List<OrderDetail> list;
+    private int fine;
+    private String bookId;
+    private Date returnedDate;
     public Order(){
     }
-    public List<OrderDetail> getList() {
-        return list;
+    public String getBookId() {
+        return bookId;
     }
-    public void setList(List<OrderDetail> list) {
-        this.list = list;
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
+    public Date getReturnedDate() {
+        return returnedDate;
+    }
+    public void setReturnedDate(Date returnedDate) {
+        this.returnedDate = returnedDate;
     }
     public int getId() {
-        return id;
+        return orderId;
     }
     public void setId(int id) {
-        this.id = id;
+        this.orderId = id;
     }
     public String getUserId() {
         return userId;
@@ -49,10 +55,10 @@ public class Order {
     public void setStatusId(int statusId) {
         this.statusId = statusId;
     }
-    public double getFine() {
+    public int getFine() {
         return fine;
     }
-    public void setFine(double fine) {
+    public void setFine(int fine) {
         this.fine = fine;
     }
 }

@@ -1,9 +1,11 @@
 package main.manager;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import main.entity.Status;
+import main.service.StatusService;
 
 public class StatusManager {
     private static List<Status> statusList;
@@ -29,5 +31,8 @@ public class StatusManager {
     }
     public static void addStatus(Status newStatus){
         statusList.add(newStatus);
+    }
+    public static void loadData() throws SQLException{
+        StatusService.getData();
     }
 }

@@ -9,9 +9,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import main.entity.Book;
 import main.manager.AppUserManager;
 import main.myListener.MyOnClickListener;
+import main.myListener.MyOnOrderListener;
 
 public class BookCardController implements Initializable{
     @FXML private Label lb_Title;
@@ -20,42 +22,35 @@ public class BookCardController implements Initializable{
     @FXML private Button btn_Order;
     private Book book;
     private MyOnClickListener myListener;
+    private MyOnOrderListener myOnOrderListener;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        btn_Order.setOpacity(0);
-        btn_Order.setDisable(true);
+        if(!AppUserManager.getUser().getCanOrder())
+            btn_Order.setDisable(true);
     }
-    public void setData(Book newBook, MyOnClickListener newMyListener){
+    public void setData(Book newBook, MyOnClickListener newMyListener, MyOnOrderListener newMyOnOrderListener){
         this.book = newBook;
         this.myListener = newMyListener;
+        this.myOnOrderListener = newMyOnOrderListener;
         lb_Title.setText(book.getTitle());
         lb_Author.setText(book.getAuthor());
         img_BookCover.setImage(book.getImage());
     }
 
     @FXML
-    private void onClick() throws IOException{
-        myListener.onClickListener(book);
+    private void onClick(MouseEvent event) throws IOException{
+        if(event.getClickCount() == 2){
+            myListener.onClickListener(book, event);
+        }
     }
     @FXML
     private void orderClick(){
-        AppUserManager.order(book);
-        //System.out.println(AppUserManager.getUser().getOrder().size());
-    }
-    @FXML
-    private void onMouseEnter(){
-        btn_Order.setOpacity(1);
-        if(AppUserManager.getUser().getOrder().contains(book)){
-            btn_Order.setText("Cancel");
-        }else{
-            btn_Order.setText("Order");
+        if(AppUserManager.getUser().getCanOrder()){
+            AppUserManager.order(book);
+            myOnOrderListener.orderClick();
         }
-        btn_Order.setDisable(false);
     }
-    @FXML
-    private void onMouseExited(){
-        btn_Order.setOpacity(0);
-        btn_Order.setDisable(true);
-    }
+    
+
 }
