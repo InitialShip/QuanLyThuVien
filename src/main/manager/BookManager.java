@@ -42,6 +42,7 @@ public class BookManager {
         return bookList.stream().filter(b -> b.getId().equals(id)).findFirst().orElse(null);
     }
     public static void loadData() throws SQLException{
+        bookList.clear();
         BookService.getData();
     }
     public static Boolean updateBook(Book book) throws SQLException{
