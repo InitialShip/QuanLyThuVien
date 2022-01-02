@@ -1,64 +1,70 @@
 package main.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Order {
     private int orderId;
     private String userId;
     private Date orderDate;
     private Date expireDate;
-    private int statusId;
-    private int fine;
-    private String bookId;
-    private Date returnedDate;
+    private int orderStatusId;
+    private List<OrderDetail> listOrder;
+
     public Order(){
+        listOrder = new ArrayList<>();
     }
-    public String getBookId() {
-        return bookId;
-    }
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
-    }
-    public Date getReturnedDate() {
-        return returnedDate;
-    }
-    public void setReturnedDate(Date returnedDate) {
-        this.returnedDate = returnedDate;
-    }
-    public int getId() {
+
+    public int getOrderId() {
         return orderId;
     }
-    public void setId(int id) {
-        this.orderId = id;
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
+
     public String getUserId() {
         return userId;
     }
+
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
     public Date getOrderDate() {
         return orderDate;
     }
+
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
+
     public Date getExpireDate() {
         return expireDate;
     }
+
     public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
     }
-    public int getStatusId() {
-        return statusId;
+
+    public int getOrderStatusId() {
+        return orderStatusId;
     }
-    public void setStatusId(int statusId) {
-        this.statusId = statusId;
+
+    public void setOrderStatusId(int orderStatusId) {
+        this.orderStatusId = orderStatusId;
     }
-    public int getFine() {
-        return fine;
+
+    public List<OrderDetail> getListOrder() {
+        return listOrder;
     }
-    public void setFine(int fine) {
-        this.fine = fine;
+
+    public void setListOrder(List<OrderDetail> listOrder) {
+        this.listOrder = listOrder;
+    }
+    //Methods
+    public void addOrderDetail(OrderDetail newOrderDetail){
+        listOrder.add(newOrderDetail);
     }
 }

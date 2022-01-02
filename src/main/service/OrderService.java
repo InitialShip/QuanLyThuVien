@@ -10,10 +10,13 @@ import java.util.List;
 
 import main.entity.Book;
 import main.entity.Order;
+import main.entity.OrderDetail;
 import main.manager.OrderManager;
 import main.mySqlConnector.Connector;
+import main.utility.Utils;
 
 public class OrderService {
+    
     public static void getAllOrder() throws SQLException{
         Connector.open();
         OrderManager.getInstance();
@@ -21,14 +24,30 @@ public class OrderService {
         ResultSet rs =  statement.executeQuery("SELECT * FROM library_db.order");
         while(rs.next()){
             Order order = new Order();
-            order.setId(rs.getInt("order_id"));
+            order.setOrderId(rs.getInt("id"));
             order.setUserId(rs.getString("user_id"));
             order.setOrderDate(rs.getDate("order_date"));
             order.setExpireDate(rs.getDate("expire_date"));
-            order.setStatusId(rs.getInt("status_id"));
-            order.setFine(rs.getInt("fine"));
-
+            order.setOrderStatusId(rs.getInt("order_status_id"));
             OrderManager.addOrder(order);
+        }
+        statement.close();
+        Connector.close();
+    }
+    public static void getAllOrderDetail() throws SQLException{
+        Connector.open();
+        OrderManager.getInstance();
+        Statement statement = Connector.getCnt().createStatement();
+        ResultSet rs = statement.executeQuery("SELECT * FROM library_db.order_detail");
+        while(rs.next()){
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setOrderId(rs.getInt("order_id"));
+            orderDetail.setBookId(rs.getString("book_id"));
+            orderDetail.setReturnedDate(rs.getDate("returned_date"));
+            orderDetail.setStatusId(rs.getInt("status_id"));
+            orderDetail.setFine(rs.getInt("fine"));
+
+            OrderManager.addOrderDetail(orderDetail);
         }
         statement.close();
         Connector.close();
@@ -48,6 +67,12 @@ public class OrderService {
         Connector.close();
         return result;
     }
+    /**
+     * Get order id of user that has not yet returned all of the books
+     * @param userId
+     * @return
+     * @throws SQLException
+     */
     public static int getLatestOrderId(String userId) throws SQLException{
         int result = -1;
         Connector.open();
@@ -83,10 +108,90 @@ public class OrderService {
         Connector.close();
         return result;
     }
-    public static void getLastestUserOrder() throws SQLException{
+    public static Boolean cancelOrder(int id) throws SQLException{
+        Boolean result = false;
         Connector.open();
-        String sql = "SELECT * FROM library.order WHERE status_id IN (1,2)";
+        Connector.getCnt().setAutoCommit(false);
+        PreparedStatement statement = Connector.getCnt().prepareStatement("UPDATE library_db.order SET order_status_id = 4 WHERE id = ?");
+        statement.setInt(1, id);
+        if(statement.executeUpdate() > 0)
+            result = true;
+        if(result){
+            statement = Connector.getCnt().prepareStatement("UPDATE library_db.order_detail SET status_id = 4 WHERE order_id = ?");
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            Connector.getCnt().commit();
+        }
+        statement.close();
         Connector.close();
+        return result;
     }
-   
+    public static Boolean checkInOrder(int id) throws SQLException{
+        Boolean result = false;
+        Connector.open();
+        Connector.getCnt().setAutoCommit(false);
+        PreparedStatement statement = Connector.getCnt().prepareStatement("UPDATE library_db.order SET order_status_id = 2 WHERE id = ?");
+        statement.setInt(1, id);
+        if(statement.executeUpdate() > 0)
+            result = true;
+        if(result){
+            statement = Connector.getCnt().prepareStatement("UPDATE library_db.order_detail SET status_id = 2 WHERE order_id = ?");
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            Connector.getCnt().commit();
+        }
+        statement.close();
+        Connector.close();
+        return result;
+    }
+    public static Boolean checkOutOrder(int id, List<OrderDetail> list , Date expireDate) throws SQLException{
+        Boolean result = true;
+        int fine = 0;
+        int dateDiff = 0;
+        LocalDate exDate = expireDate.toLocalDate();
+        if(LocalDate.now().compareTo(exDate) > 0){
+            dateDiff = (int) Utils.getDaysDiff(exDate, LocalDate.now());
+        }
+        fine = dateDiff*5000;
+        Connector.open();
+        Connector.getCnt().setAutoCommit(false);
+        PreparedStatement statement = Connector.getCnt().prepareStatement("UPDATE library_db.order_detail SET status_id = 3, returned_date = ?, fine = ? WHERE order_id = ? AND book_id = ?");
+        for (OrderDetail orderDetail : list) {
+            statement.setDate(1, Date.valueOf(LocalDate.now()));
+            statement.setInt(2, fine);
+            statement.setInt(3, id);
+            statement.setString(4, orderDetail.getBookId());
+            statement.addBatch();
+        }
+        int[] i = statement.executeBatch();
+        for (int j : i) {
+            if(j == 0)
+                result = false;
+        }
+        if(result){
+            if(isOrderOver(id)){
+                statement = Connector.getCnt().prepareStatement("UPDATE library_db.order SET order_status_id = 3 WHERE id = ?");
+                statement.setInt(1, id);
+                if(statement.executeUpdate() == 0)
+                    result = false;
+            }
+        }
+        if(result)
+            Connector.getCnt().commit();
+        statement.close();
+        Connector.close();
+        return result;
+    }
+    private static Boolean isOrderOver(int id) throws SQLException{
+        Boolean result = true;
+        PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT * FROM library_db.order_detail WHERE status_id = 2 AND order_id = ?");
+        statement.setInt(1, id);
+        ResultSet rs = statement.executeQuery();
+        while(rs.isBeforeFirst()){
+            result = false;
+            break;
+        }
+        statement.close();
+        return result;
+    }
 }

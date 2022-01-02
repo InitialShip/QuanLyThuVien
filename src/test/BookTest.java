@@ -13,7 +13,7 @@ import main.service.BookService;
 public class BookTest {
     BookManager bookManager = BookManager.getInstance();
     @BeforeAll
-    public void loadBookData() throws SQLException{
+    public void testLoadBookData() throws SQLException{
         BookManager.loadData();
         assertEquals(BookManager.getAllBooks().size(), BookService.getCount());
     }

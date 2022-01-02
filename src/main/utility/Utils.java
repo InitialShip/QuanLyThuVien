@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,9 +30,12 @@ public class Utils {
         return matcher.matches();
     }
     
-    /* 
-    * Get a SHA-256 hash of a given string
-    */
+    /**
+     * Get SHA256 Hash
+     * @param input String
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
     public static String getEncryted(String input) throws NoSuchAlgorithmException{
         return toHexString(getSHA(input));
     }
@@ -41,32 +46,64 @@ public class Utils {
     }
     private static String toHexString(byte[] hash){
         BigInteger number = new BigInteger(1, hash); 
-  
         StringBuilder hexString = new StringBuilder(number.toString(16)); 
-  
         while (hexString.length() < 32){ 
             hexString.insert(0, '0'); 
-        } 
-  
+        }
         return hexString.toString(); 
     }
 
-    /*
-    *  Create an alert box
-    */
+    /**
+     * Get an arlert box
+     * @param message
+     * @param type
+     * @return
+     */
     public static Alert getAlertBox(String message, Alert.AlertType type){
         Alert alert = new Alert(type);
         alert.setContentText(message);
         return alert;
     }
-    /*
-    * Reverse oder of a list
-    */
+    /**
+     * Reverse order of a list
+     * @param <T>
+     * @param list
+     */
     public static <T> void revlist(List<T> list){
         if (list.size() <= 1 || list == null)
             return;
         T value = list.remove(0);
         revlist(list);
         list.add(value);
+    }
+    /**
+     * Get days diff
+     * @param start
+     * @param end
+     * @return
+     */
+    public static long getDaysDiff(LocalDate start, LocalDate end){
+        long days = ChronoUnit.DAYS.between(start, end);
+        return days;
+    }
+    /**
+     * Get months diff
+     * @param start 
+     * @param end
+     * @return number of months
+     */
+    public static long getMonthDiff(LocalDate start, LocalDate end){
+        long months = ChronoUnit.MONTHS.between(start, end);
+        return months;
+    }
+    /**
+     * Get years diff
+     * @param start
+     * @param end
+     * @return
+     */
+    public static long getYearDiff(LocalDate start, LocalDate end){
+        long years = ChronoUnit.YEARS.between(start, end);
+        return years;
     }
 }
