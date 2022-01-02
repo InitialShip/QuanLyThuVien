@@ -2,6 +2,7 @@ package main.scene.admin;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
@@ -16,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
@@ -27,8 +29,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import main.entity.Book;
+import main.entity.Order;
 import main.manager.BookManager;
 import main.manager.CategoryManager;
+import main.manager.OrderManager;
+import main.manager.StatusManager;
 import main.myListener.MyOnUpdateListener;
 import main.utility.MyScene;
 import main.utility.Utils;
@@ -43,8 +48,16 @@ public class AdminInterfaceController implements Initializable {
     @FXML private TableColumn<Book, String> categoryColumn;
     @FXML private TableColumn<Book, String> disabledColumn;
 
+    @FXML private TableView<Order> orderView;
+    @FXML private TableColumn<Order,Integer> orderIdColumn;
+    @FXML private TableColumn<Order, String> userIdColumn;
+    @FXML private TableColumn<Order, Date> orderDateColumn;
+    @FXML private TableColumn<Order, Date> expireDateColumn;
+    @FXML private TableColumn<Order, String> orderStatusColumn;
+
     ObservableList<Book> displayList;
     private MyOnUpdateListener myListener;
+    private MyOnUpdateListener myOrderListener;
 
     @FXML private ComboBox<String> cbox_SearchOption;
     @FXML private TextField txt_Search;
@@ -56,9 +69,12 @@ public class AdminInterfaceController implements Initializable {
             BookManager.loadData();
             CategoryManager.getInstance();
             CategoryManager.loadData();
-
+            StatusManager.getInstance();
+            StatusManager.loadData();
+            OrderManager.getInstance();
+            OrderManager.loadData();
         } catch (SQLException e) {
-            Utils.getAlertBox("Can not load library data!", AlertType.ERROR).showAndWait();
+            Utils.getAlertBox("Can not load data!", AlertType.ERROR).showAndWait();
             Platform.exit();
         }
         cbox_SearchOption.setItems(FXCollections.observableArrayList("ID","Title", "Author", "Year"));
@@ -96,6 +112,28 @@ public class AdminInterfaceController implements Initializable {
                 reloadData();      
             }
         };
+        //Order view 
+        orderIdColumn.setCellValueFactory(new PropertyValueFactory<Order,Integer>("orderId"));
+        userIdColumn.setCellValueFactory(new PropertyValueFactory<Order,String>("userId"));
+        orderDateColumn.setCellValueFactory(new PropertyValueFactory<Order,Date>("orderDate"));
+        expireDateColumn.setCellValueFactory(new PropertyValueFactory<Order,Date>("expireDate"));
+        orderStatusColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Order,String>,ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Order, String> o) {
+                return new SimpleStringProperty(StatusManager.getStatusName(o.getValue().getOrderStatusId()));
+            }
+        });
+        orderView.setItems(FXCollections.observableArrayList(OrderManager.getRecentOrder()));
+        myOrderListener = new MyOnUpdateListener() {
+            @Override
+            public void update() throws SQLException {
+                reloadOrderView();
+            }
+        };
+    }
+    private void reloadOrderView() throws SQLException{
+        OrderManager.reloadData();
+        orderView.setItems(FXCollections.observableArrayList(OrderManager.getRecentOrder()));
     }
     private void reloadData() throws SQLException{
         BookManager.reloadData();
@@ -142,15 +180,12 @@ public class AdminInterfaceController implements Initializable {
     private static Stage modifier;
     private static BookModifierController updateController;
     @FXML
-    public void clickItem(MouseEvent event) throws IOException
-    {
-        if (event.getClickCount() == 2) //Checking double click
-        {
+    public void clickItem(MouseEvent event) throws IOException{
+        if (event.getClickCount() == 2){
             Book book = tableView.getSelectionModel().getSelectedItem();   
             if (book == null)
                 return;
-            if(modifier == null)
-            {
+            if(modifier == null){
                 modifier = new Stage();
                 modifier.setResizable(false);
                 modifier.setTitle("Book Modifier");
@@ -181,6 +216,52 @@ public class AdminInterfaceController implements Initializable {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        
+    }
+    private static Stage orderStage;
+    private static OrderDetailViewController orderDetailViewController;
+    @FXML
+    private void clickOrder(MouseEvent event) throws IOException{
+        if(event.getClickCount() == 2){
+            Order order = orderView.getSelectionModel().getSelectedItem();
+            if(order == null)
+                return;
+            if(orderStage == null){
+                orderStage = new Stage();
+                orderStage.setResizable(false);
+                orderStage.setTitle("Order Detail | " + "ID :"+order.getOrderId());
+                orderDetailViewController = (OrderDetailViewController)MyScene.openChildScene(orderStage, "scene/admin/OrderDetailView");
+                orderStage.initOwner((Stage)((Node)event.getSource()).getScene().getWindow());
+            }
+            orderDetailViewController.setData(order);
+            orderDetailViewController.setListener(myOrderListener);
+            orderStage.show();
+            orderStage.toFront();
+        }
+    }
+    private static Stage orderHisStage;
+    @FXML
+    private void toHistory(ActionEvent event) throws IOException{  
+        if(orderHisStage == null){
+            orderHisStage = new Stage();
+            orderHisStage.setResizable(false);
+            orderHisStage.setTitle("Order History");
+            orderHisStage.setScene(new Scene(MyScene.loadFXML("scene/admin/OrderHistory")));
+            orderHisStage.initOwner((Stage)((Node)event.getSource()).getScene().getWindow());
+        }
+        orderHisStage.show();
+        orderHisStage.toFront();
+    }
+    private static Stage statisticStage;
+    @FXML
+    private void toStatistic(ActionEvent event) throws IOException{  
+        if(statisticStage == null){
+            statisticStage = new Stage();
+            statisticStage.setResizable(false);
+            statisticStage.setTitle("Library Statistic");
+            statisticStage.setScene(new Scene(MyScene.loadFXML("scene/admin/Statistic")));
+            statisticStage.initOwner((Stage)((Node)event.getSource()).getScene().getWindow());
+        }
+        statisticStage.show();
+        statisticStage.toFront();
     }
 }

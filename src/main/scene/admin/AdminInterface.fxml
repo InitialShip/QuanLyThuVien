@@ -33,17 +33,20 @@
          </contextMenu>
       </TextField>
       <ComboBox fx:id="cbox_SearchOption" layoutX="12.0" layoutY="57.0" prefHeight="25.0" prefWidth="87.0" />
-      <TableView layoutX="633.0" layoutY="100.0" prefHeight="540.0" prefWidth="497.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0">
+      <TableView fx:id="orderView" layoutX="633.0" layoutY="100.0" onMouseClicked="#clickOrder" prefHeight="540.0" prefWidth="497.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Order ID" />
-            <TableColumn prefWidth="75.0" text="User ID" />
-            <TableColumn prefWidth="75.0" text="Date" />
-            <TableColumn prefWidth="75.0" text="Status" />
+          <TableColumn fx:id="orderIdColumn" prefWidth="75.0" text="Order ID" />
+            <TableColumn fx:id="userIdColumn" prefWidth="87.0" text="User ID" />
+            <TableColumn fx:id="orderDateColumn" prefWidth="109.0" text="Order Date" />
+            <TableColumn fx:id="expireDateColumn" prefWidth="123.0" text="Expire Date" />
+            <TableColumn fx:id="orderStatusColumn" prefWidth="102.0" text="Status" />
         </columns>
       </TableView>
       <ToolBar layoutX="10.0" layoutY="14.0" minHeight="-Infinity" prefHeight="38.0" prefWidth="1100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <Button mnemonicParsing="false" onAction="#onBtnAddBookSelect" text="Add New Book" />
+            <Button mnemonicParsing="false" onAction="#toHistory" text="Order History" />
+            <Button mnemonicParsing="false" onAction="#toStatistic" text="Statistic" />
         </items>
       </ToolBar>
    </children>

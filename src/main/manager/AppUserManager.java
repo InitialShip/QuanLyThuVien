@@ -57,7 +57,7 @@ public class AppUserManager {
     }
     public static void loadData(String id) throws SQLException{
         AppUserService.getData(id);
-        AppUserManager.getUser().setCanOrder(AppUserService.canOrder(id));
+        AppUserManager.getUser().setCanOrder(AppUserService.canOrder(id)&&AppUserService.isIdCardValid(id));
     }
     public static void reset(){
         user = new AppUser();

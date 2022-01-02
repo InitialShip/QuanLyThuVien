@@ -1,11 +1,13 @@
 package main.service;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import main.entity.AppUser;
-import main.entity.Order;
+import main.entity.UserOrder;
 import main.manager.AppUserManager;
 import main.manager.BookManager;
 import main.mySqlConnector.Connector;
@@ -40,6 +42,20 @@ public class AppUserService {
             result = true;
         return result;
     }
+    //yeet
+    public static Boolean isIdCardValid(String id) throws SQLException{
+        Boolean result = false;
+        Connector.open();
+        PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT expire_date FROM library_db.id_card WHERE user_id = ?");
+        ResultSet rs = statement.executeQuery();
+        if(rs.isBeforeFirst()){
+            Date retrivedDate = rs.getDate("expire_date");
+            if(LocalDate.now().compareTo(retrivedDate.toLocalDate())<=0)
+                result = true;
+        }
+        Connector.close();
+        return result;
+    }
     public static void getRecentOrder() throws SQLException{
         Connector.open();
         PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT * FROM library_db.order_detail WHERE order_id = ?");
@@ -58,7 +74,7 @@ public class AppUserService {
         statement.setString(1, id);
         ResultSet rs = statement.executeQuery();
         while (rs.next()){
-            Order order = new Order();
+            UserOrder order = new UserOrder();
             order.setId(rs.getInt("id"));
             order.setBookId(rs.getString("book_id"));
             order.setOrderDate(rs.getDate("order_date"));
@@ -83,4 +99,5 @@ public class AppUserService {
         Connector.close();
         return result;
     }
+    
 }

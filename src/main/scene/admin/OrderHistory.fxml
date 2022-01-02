@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="595.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.admin.OrderHistoryController">
+   <children>
+      <TableView fx:id="orderView" layoutX="14.0" layoutY="69.0" onMouseClicked="#clickOrder" prefHeight="317.0" prefWidth="570.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+         <columns>
+            <TableColumn fx:id="orderIdColumn" prefWidth="75.0" text="Order ID" />
+            <TableColumn fx:id="userIdColumn" prefWidth="133.0" text="User ID" />
+            <TableColumn fx:id="orderDateColumn" prefWidth="120.0" text="Order Date" />
+            <TableColumn fx:id="expireDateColumn" prefWidth="107.0" text="Expire Date" />
+            <TableColumn fx:id="orderStatusColumn" prefWidth="139.0" text="Status" />
+         </columns>
+      </TableView>
+      <Label layoutX="226.0" layoutY="14.0" text="Order History">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -34,7 +34,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import main.entity.Book;
 import main.entity.Category;
-import main.entity.Order;
+import main.entity.UserOrder;
 import main.manager.AppUserManager;
 import main.manager.BookManager;
 import main.manager.CategoryManager;
@@ -59,13 +59,13 @@ public class BookViewController implements Initializable{
     @FXML private TableColumn<Book,String> col_Category;
     @FXML private Button btn_Order;
     @FXML private Button btn_ClearOrder;
-    @FXML private TableView<Order> tv_OrderHis;
-    @FXML private TableColumn<Order, Date> col_OrderDate;
-    @FXML private TableColumn<Order, Date> col_ExpireDate;
-    @FXML private TableColumn<Order, Date> col_ReturnedDate;
-    @FXML private TableColumn<Order, String> col_Status;
-    @FXML private TableColumn<Order, Integer> col_Fine;
-    @FXML private TableColumn<Order, String> col_BName;
+    @FXML private TableView<UserOrder> tv_OrderHis;
+    @FXML private TableColumn<UserOrder, Date> col_OrderDate;
+    @FXML private TableColumn<UserOrder, Date> col_ExpireDate;
+    @FXML private TableColumn<UserOrder, Date> col_ReturnedDate;
+    @FXML private TableColumn<UserOrder, String> col_Status;
+    @FXML private TableColumn<UserOrder, Integer> col_Fine;
+    @FXML private TableColumn<UserOrder, String> col_BName;
 
     private MyOnClickListener myListener;
     private MyOnOrderListener myOnOrderListener;
@@ -119,19 +119,19 @@ public class BookViewController implements Initializable{
         });
         tv_Borrowing.setItems(FXCollections.observableArrayList(AppUserManager.getUser().getOrder()));
 
-        col_OrderDate.setCellValueFactory(new PropertyValueFactory<Order,Date>("orderDate"));
-        col_ExpireDate.setCellValueFactory(new PropertyValueFactory<Order,Date>("expireDate"));
-        col_ReturnedDate.setCellValueFactory(new PropertyValueFactory<Order,Date>("returnedDate"));
-        col_Fine.setCellValueFactory(new PropertyValueFactory<Order,Integer>("fine"));
-        col_BName.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Order,String>,ObservableValue<String>>() {
+        col_OrderDate.setCellValueFactory(new PropertyValueFactory<UserOrder,Date>("orderDate"));
+        col_ExpireDate.setCellValueFactory(new PropertyValueFactory<UserOrder,Date>("expireDate"));
+        col_ReturnedDate.setCellValueFactory(new PropertyValueFactory<UserOrder,Date>("returnedDate"));
+        col_Fine.setCellValueFactory(new PropertyValueFactory<UserOrder,Integer>("fine"));
+        col_BName.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<UserOrder,String>,ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(CellDataFeatures<Order, String> st) {
+            public ObservableValue<String> call(CellDataFeatures<UserOrder, String> st) {
                 return new SimpleStringProperty(BookManager.getBook(st.getValue().getBookId()).getTitle());
             }
         });
-        col_Status.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Order,String>,ObservableValue<String>>() {
+        col_Status.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<UserOrder,String>,ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(CellDataFeatures<Order, String> st) {
+            public ObservableValue<String> call(CellDataFeatures<UserOrder, String> st) {
                 return new SimpleStringProperty(StatusManager.getStatusName(st.getValue().getStatusId()));
             }
         });

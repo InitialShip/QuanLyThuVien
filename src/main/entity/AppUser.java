@@ -17,15 +17,15 @@ public class AppUser {
     private String phoneNumber;
     private Date libCardVaildUpTo;
     private Boolean canOrder;
-    private List<Order> orderHistory;
+    private List<UserOrder> orderHistory;
     public AppUser(){
         order = new ArrayList<>();
         orderHistory = new ArrayList<>();
     }
-    public List<Order> getOrderHistory() {
+    public List<UserOrder> getOrderHistory() {
         return orderHistory;
     }
-    public void setOrderHistory(List<Order> orderHistory) {
+    public void setOrderHistory(List<UserOrder> orderHistory) {
         this.orderHistory = orderHistory;
     }
     public Boolean getCanOrder() {
@@ -112,7 +112,7 @@ public class AppUser {
     public void removeOrder(Book book){
         this.order.remove(book);
     }
-    public void addOrderHistory(Order order){
+    public void addOrderHistory(UserOrder order){
         this.orderHistory.add(order);
     }
 }
