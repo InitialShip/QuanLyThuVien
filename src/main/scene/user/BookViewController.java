@@ -142,7 +142,6 @@ public class BookViewController implements Initializable{
     private void comboboxSelect() throws IOException{
         layout.getChildren().clear();
         displayList = FXCollections.observableArrayList(searchBooks(BookManager.getBooks(),searchText.getText()));
-
         displayBook();
     }
     private static Stage reviewStage;
