@@ -9,7 +9,6 @@ import main.service.OrderService;
 
 public class AppUserManager {
     private static AppUser user = null;
-    
     private static AppUserManager instance = null;
     private AppUserManager(){
         user = new AppUser();
@@ -26,8 +25,8 @@ public class AppUserManager {
     public static void setId(String id){
         user.setId(id);
     }
-    public static void setUser(AppUser nuser){
-        user = nuser;
+    public static void setUser(AppUser newuser){
+        user = newuser;
     }
     public static String getVaildUpToDate(){
         if(user.getLibCardVaildUpTo() == null)
@@ -59,9 +58,7 @@ public class AppUserManager {
         AppUserService.getData(id);
         AppUserManager.getUser().setCanOrder(AppUserService.canOrder(id)&&AppUserService.isIdCardValid(id));
     }
-    public static void reset(){
-        user = new AppUser();
-    }
+
     public static void getRecentOrder() throws SQLException{
         AppUserService.getRecentOrder();
     }

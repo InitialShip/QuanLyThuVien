@@ -105,6 +105,7 @@ public class BookViewController implements Initializable{
         try {
             displayBook();
         } catch (IOException e) {
+            System.out.println(e.getMessage() + "   2");
             Utils.getAlertBox("Can not display book", AlertType.ERROR).showAndWait();
             Platform.exit();
         }
@@ -232,6 +233,8 @@ public class BookViewController implements Initializable{
     }
     @FXML
     private void submitOrderClick() throws SQLException{
+        if(AppUserManager.getUser().getOrder().isEmpty())
+            return;
         Optional<ButtonType> option = Utils.getAlertBox("Do you want to order?", AlertType.CONFIRMATION).showAndWait();
         if(option.get() == ButtonType.OK){
             try {

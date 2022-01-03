@@ -42,13 +42,13 @@ public class AppUserService {
             result = true;
         return result;
     }
-    //yeet
     public static Boolean isIdCardValid(String id) throws SQLException{
         Boolean result = false;
         Connector.open();
         PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT expire_date FROM library_db.id_card WHERE user_id = ?");
+        statement.setString(1, id);
         ResultSet rs = statement.executeQuery();
-        if(rs.isBeforeFirst()){
+        if(rs.next()){
             Date retrivedDate = rs.getDate("expire_date");
             if(LocalDate.now().compareTo(retrivedDate.toLocalDate())<=0)
                 result = true;
@@ -99,5 +99,4 @@ public class AppUserService {
         Connector.close();
         return result;
     }
-    
 }
