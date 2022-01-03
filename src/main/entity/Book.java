@@ -106,11 +106,4 @@ public class Book {
         }
         return image;
     }
-    //method
-    @Override
-    public String toString() {
-        String result; 
-        result = String.format("%s \n%s \n%s \n%s \n%d \n%s \n\n", this.id, this.title, this.author, this.description, this.year, this.publisher);
-        return result;
-    }
 }

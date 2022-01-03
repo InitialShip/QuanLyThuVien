@@ -91,6 +91,10 @@ public class OrderDetailViewController implements Initializable{
         btn_CancelOrder.setVisible(false);
     }
     private void loadData(){
+        btn_Action.setDisable(false);
+        btn_CancelOrder.setDisable(false);
+        btn_Action.setVisible(true);
+        btn_CancelOrder.setVisible(true);
         orderDetailView.setItems(FXCollections.observableArrayList(selectedOrder.getListOrder()));
         lb_OrderId.setText(Integer.toString(selectedOrder.getOrderId()));
         lb_UserId.setText(selectedOrder.getUserId());
