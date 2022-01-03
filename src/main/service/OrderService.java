@@ -76,7 +76,7 @@ public class OrderService {
     public static int getLatestOrderId(String userId) throws SQLException{
         int result = -1;
         Connector.open();
-        PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT id FROM library_db.order WHERE user_id = ? AND order_status_id = 1");
+        PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT id FROM library_db.order WHERE user_id = ? AND order_status_id IN (1,2)");
         statement.setString(1, userId);
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {

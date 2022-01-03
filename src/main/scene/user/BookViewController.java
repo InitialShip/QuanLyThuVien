@@ -105,12 +105,12 @@ public class BookViewController implements Initializable{
         try {
             displayBook();
         } catch (IOException e) {
-            System.out.println(e.getMessage() + "   2");
+            System.out.println(e.getMessage());
             Utils.getAlertBox("Can not display book", AlertType.ERROR).showAndWait();
             Platform.exit();
         }
         searchText.textProperty().addListener((observal,oldVal,newVal)->{
-            displayList = FXCollections.observableArrayList(searchBooks(BookManager.getBooks()));
+            displayList = FXCollections.observableArrayList(searchBooks(BookManager.getBooks(),searchText.getText()));
             try {
                 displayBook();
             } catch (IOException e1) {
@@ -141,7 +141,7 @@ public class BookViewController implements Initializable{
     @FXML
     private void comboboxSelect() throws IOException{
         layout.getChildren().clear();
-        displayList = FXCollections.observableArrayList(applyFilter(BookManager.getBooks()));
+        displayList = FXCollections.observableArrayList(searchBooks(BookManager.getBooks(),searchText.getText()));
 
         displayBook();
     }
@@ -183,18 +183,18 @@ public class BookViewController implements Initializable{
         sortOrderComboBox.getSelectionModel().selectFirst();
     }
 
-    private List<Book> searchBooks(List<Book> books){
+    private List<Book> searchBooks(List<Book> books, String keyWord){
         layout.getChildren().clear();
-        if(searchText.getText().isBlank())
+        if(keyWord.isBlank())
             return applyFilter(books);
         
         switch (searchComboBox.getSelectionModel().getSelectedItem()) {
             case "Title":
-                return BookManager.findByTitle(searchText.getText().trim(), applyFilter(books));
+                return BookManager.findByTitle(keyWord.trim(), applyFilter(books));
             case "Authors":
-                return BookManager.findByAuthor(searchText.getText().trim(), applyFilter(books));
+                return BookManager.findByAuthor(keyWord.trim(), applyFilter(books));
             case "Year":
-                return BookManager.findByYear(searchText.getText().trim(), applyFilter(books));
+                return BookManager.findByYear(keyWord.trim(), applyFilter(books));
             default:    
                 break;
         }

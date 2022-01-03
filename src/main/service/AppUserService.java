@@ -58,7 +58,7 @@ public class AppUserService {
     }
     public static void getRecentOrder() throws SQLException{
         Connector.open();
-        PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT * FROM library_db.order_detail WHERE order_id = ?");
+        PreparedStatement statement = Connector.getCnt().prepareStatement("SELECT * FROM library_db.order_detail WHERE order_id = ? AND status_id IN (1,2)");
         statement.setInt(1, OrderService.getLatestOrderId(AppUserManager.getUser().getId()));
         ResultSet rs = statement.executeQuery();
         while(rs.next()){
@@ -69,7 +69,7 @@ public class AppUserService {
     }
     public static void getUserOrderDetail(String id) throws SQLException{
         Connector.open();
-        String sql = "SELECT * FROM library_db.order o, library_db.order_detail d WHERE o.id = d.order_id AND o.order_status_id NOT IN (1,2) AND user_id = ?";
+        String sql = "SELECT * FROM library_db.order , library_db.order_detail WHERE id = order_id AND status_id NOT IN (1,2) AND user_id = ?";
         PreparedStatement statement = Connector.getCnt().prepareStatement(sql);
         statement.setString(1, id);
         ResultSet rs = statement.executeQuery();
