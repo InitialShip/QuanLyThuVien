@@ -40,7 +40,7 @@ public class UserInterfaceController implements Initializable{
             AppUserManager.getOrderHistory();
             toBookView();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + " 1");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
